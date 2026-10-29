@@ -3,13 +3,19 @@
   <ion-menu side="end" menuId="first" contentId="main">
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Start Menu</ion-title>
+        <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
       <ion-list>
         <ion-menu-toggle auto-hide="false">
+          <ion-item [routerLink]="['/']">Accueil</ion-item>
+        </ion-menu-toggle>        
+        <ion-menu-toggle auto-hide="false">
           <ion-item [routerLink]="['/liste-exposants-page']">Liste des exposants</ion-item>
+        </ion-menu-toggle>        
+        <ion-menu-toggle auto-hide="false">
+          <ion-item [routerLink]="['/liste-livres-page']">Liste des livres</ion-item>
         </ion-menu-toggle>        
       </ion-list>
     </ion-content>

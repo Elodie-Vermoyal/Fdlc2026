@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Détail du livre</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/liste-livres-page"></ion-back-button>
+    </ion-buttons>    
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  @if(livre) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{livre.titre}}</ion-card-title>
+        <ion-card-subtitle>Genre: {{livre.genre}} | Éditeur: {{livre.editeur}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Auteur :</strong> {{livre.prenom}} {{livre.nom}}</p>
+        <p><strong>Exposant / Stand :</strong> {{livre.nomExposant}}</p>
+        <hr>
+        <p><strong>Résumé :</strong></p>
+        <p>{{livre.resume}}</p>
+      </ion-card-content>
+    </ion-card>
+  } @else {
+    <p>Chargement des détails du livre...</p>
+  }
+</ion-content>

@@ -1,0 +1,22 @@
+<ion-input 
+  [label]="label()" 
+  placeholder="Taper le début du titre" 
+  [(ngModel)]="titre" 
+  (ionInput)="onTitreChanged($event)"
+  (click)="onInputClick($event)">
+</ion-input>
+@if(showList())
+{
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        @for( livre of listeLivres | async; track livre.id )
+        {
+          <ion-item (click)="onClickTitreSelected( livre.titre )">
+            {{livre.titre}}
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+}
