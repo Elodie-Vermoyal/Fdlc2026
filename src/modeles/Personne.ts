@@ -6,14 +6,16 @@ export class Personne
     public nom: string = "" ;
     public biographie: string = "" ;
     public photo: string = "" ;
+    public specialite: string = "" ;
 
-    constructor( 
-        id: number = -1, 
+    constructor(
+        id: number = -1,
         civilite: string = "",
         prenom: string = "",
         nom: string = "",
         biographie: string = "",
-        photo: string = "" )
+        photo: string = "",
+        specialite: string = "" )
     {
         this.id = id ;
         this.civilite = civilite ;
@@ -21,5 +23,6 @@ export class Personne
         this.nom = nom ;
         this.biographie = biographie ;
         this.photo = photo ;
+        this.specialite = specialite ;
     }
 }
