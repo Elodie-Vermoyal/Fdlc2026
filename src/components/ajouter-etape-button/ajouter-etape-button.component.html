@@ -1,0 +1,42 @@
+<ion-button (click)="onClick()" [fill]="dejaPlannifie() ? 'outline' : 'solid'">
+  <ion-icon slot="start" [name]="dejaPlannifie() ? 'checkmark-circle-outline' : 'calendar-outline'"></ion-icon>
+  {{ dejaPlannifie() ? "Dans le planning" : label() }}
+</ion-button>
+
+<ion-modal [isOpen]="modalOuvert()" (didDismiss)="modalOuvert.set(false)" class="choix-heure">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="modalOuvert.set(false)">Annuler</ion-button>
+        </ion-buttons>
+        <ion-title>Quand ?</ion-title>
+        <ion-buttons slot="end">
+          <ion-button [strong]="true" (click)="onValideHeure()">Ajouter</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <p>{{ nom() }}</p>
+      <ion-datetime
+        presentation="date-time"
+        locale="fr-FR"
+        [firstDayOfWeek]="1"
+        [min]="debutFestival"
+        [max]="finFestival"
+        hourValues="9,10,11,12,13,14,15,16,17,18"
+        minuteValues="0,15,30,45"
+        [(ngModel)]="heureChoisie">
+        <span slot="time-label">Heure</span>
+      </ion-datetime>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-toast
+  [isOpen]="message() !== ''"
+  [message]="message()"
+  [duration]="2500"
+  position="bottom"
+  (didDismiss)="message.set('')">
+</ion-toast>
