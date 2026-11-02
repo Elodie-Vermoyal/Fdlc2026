@@ -1,5 +1,8 @@
 <?php
 
+header("Access-Control-Allow-Origin: http://localhost:8101");
+header("Content-Type: application/json; charset=UTF-8");
+
 require_once "../Connexion.php" ;
 
 try
