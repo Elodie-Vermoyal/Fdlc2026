@@ -13,6 +13,9 @@ import {
   IonButtons,
   IonMenuButton,
   IonBackButton,
+  IonList,
+  IonItem,
+  IonLabel,
  } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Exposant } from '../../modeles/Exposant';
@@ -30,6 +33,10 @@ import { ExposantService } from '../../servcies/exopsant.service';
     IonButtons,
     IonMenuButton,
     IonBackButton,
+    IonList,
+    IonItem,
+    IonLabel,
+    AsyncPipe,
     CommonModule, 
     FormsModule]
 })

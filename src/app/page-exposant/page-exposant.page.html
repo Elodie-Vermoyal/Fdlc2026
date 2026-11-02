@@ -21,4 +21,15 @@
     <ion-toolbar>
     </ion-toolbar>
   </ion-header>
+  <ion-list>
+    @for( exposant of exposants | async;  track exposant.id )
+    {
+      <ion-item>
+        <ion-label>
+          <h2>{{exposant.nom}}</h2>
+          <p>Stand n° {{exposant.numLieu}}</p>
+        </ion-label>
+      </ion-item>
+    }
+  </ion-list>
 </ion-content>
