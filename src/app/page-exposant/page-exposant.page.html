@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Exposant id: {{id()}}</ion-title>
+    <ion-title>
+        @for( exposant of exposants | async;  track exposant.id )
+        {
+          {{exposant.nom}}
+        }
+    </ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>    
@@ -14,7 +19,6 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Exposant id: {{id()}}</ion-title>
     </ion-toolbar>
   </ion-header>
 </ion-content>

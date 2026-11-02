@@ -35,4 +35,18 @@ export class ExposantService
 
         return this.http.get<Exposant[]>( url ) ;
     }
+
+    getExposantById( id: number = -1 ): Observable<Exposant[]>
+    {
+        let first = true ;
+        let url = "php/exposant/exposant-id.php" ;
+
+        if( id != -1 ) 
+        {
+            url += (first)? "?" : "&"  
+            url += "id=" + id ;
+        }
+
+        return this.http.get<Exposant[]>( url ) ;
+    }
 }
