@@ -50,12 +50,15 @@ alter table personne add constraint pk_personne primary key(id) ;
 create table lieu( 
     num int,
     nom varchar(50), 
+    hall int,
     `type` varchar(20),
     x1 int,
     y1 int,
     x2 int,
     y2 int ) ;
 alter table lieu add constraint pk_lieu primary key(num) ;
+
+alter table lieu add hall int null ;
 
 create table typelieu( type varchar(20) not null) ;
 alter table typelieu add constraint pk_typelieu primary key(type) ;
@@ -115,8 +118,15 @@ alter table ecrire add constraint pk_ecrire primary key(idPersonne, idLivre) ;
 ALTER TABLE `ecrire` ADD CONSTRAINT `fk_ecrire_personne` FOREIGN KEY (`idPersonne`) REFERENCES `personne`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE; 
 ALTER TABLE `ecrire` ADD CONSTRAINT `fk_ecrire_livre` FOREIGN KEY (`idLivre`) REFERENCES `livre`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
-create table typeevenement( type varchar(30) not null ) ;
+create table typeevenement( type varchar(80) not null ) ;
 alter table typeevenement add constraint pk_typeevenement primary key(type) ;
+
+insert typeevenement values( "Passeurs de culture") ;
+insert typeevenement values( "Grand entretien") ;
+insert typeevenement values( "Histoires à faire peur") ;
+insert typeevenement values( "") ;
+insert typeevenement values( "Table ronde") ;
+insert typeevenement values( "Passeurs de culture") ;
 
 create table evenement( 
     id int not null, 

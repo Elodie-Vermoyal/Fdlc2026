@@ -78,7 +78,7 @@ class ImportPersonne extends Importation
             $sqlDelete = "DELETE FROM " . $this->nomTable . " WHERE nom = :nom and prenom = :prenom and specialite='auteur'" ;
             $cursorDelete = $bd->prepare( $sqlDelete ) ;
 
-            $sql = "SELECT prenom, nom from " . $this->nomTable ;
+            $sql = "SELECT prenom, nom from " . $this->nomTable . " where specialite='auteur'" ;
             $cursor = $bd->prepare( $sql ) ;
             $cursor->execute() ;
             
