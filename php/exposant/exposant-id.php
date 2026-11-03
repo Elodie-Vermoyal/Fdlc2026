@@ -19,9 +19,9 @@ try
         exit;
     }
 
-    $sql = "select id, nom, numLieu as numStand from "
-         . Connexion::$tables["exposant"]
-         . " where id = :id";
+    $sql = "select distinct idExposant as id, nomExposant as nom, numLieu, nomLieu, hall from "
+         . Connexion::$tables["PersonneExposantExposerLieu"]
+         . " where idExposant = :id";
 
     $cursor = $bd->prepare($sql);
     $cursor->bindValue(":id", $id, PDO::PARAM_INT);

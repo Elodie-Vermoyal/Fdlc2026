@@ -13,7 +13,8 @@ select
     ser.dimanche_am,
     ser.dimanche_pm,
     ex.numLieu,
-    l.nom as nomLieu
+    l.nom as nomLieu,
+    l.hall
 from fdlc_exposer as ser 
     inner join fdlc_personne as p on ser.idPersonne = p.id
     inner join fdlc_exposant as ex on ser.idExposant = ex.id
@@ -32,7 +33,8 @@ select
     ser.dimanche_am,
     ser.dimanche_pm,
     ex.numLieu,
-    l.nom as nomLieu
+    l.nom as nomLieu,
+    l.hall
 from exposer as ser 
     inner join personne as p on ser.idPersonne = p.id
     inner join exposant as ex on ser.idExposant = ex.id
