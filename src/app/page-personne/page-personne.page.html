@@ -1,7 +1,7 @@
 
 <ion-header>
   <ion-toolbar>
-    <ion-title>Fiche personne</ion-title>
+    <ion-title>Fiche personne {{id()}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,11 +12,22 @@
 
     <h1>{{ p.prenom }} {{ p.nom }}</h1>
 
-    <h2>Spécialité</h2>
-    <p>{{ p.specialite || 'Non renseignée' }}</p>
+    @if( p.specialite )
+    {
+      <h2>Spécialité</h2>
+      <p>{{p.specialite}}</p>
+    }
 
-    <h2>Biographie</h2>
-    <p>{{ p.biographie || 'Aucune biographie disponible.' }}</p>
+    @if( p.biographie )
+    {
+      <h2>Biographie</h2>
+      <p>{{p.biographie}}</p>
+    }
+
+    @if( p.photo )
+    {
+      <ion-img [src]="p.photo"/>
+    }
 
   } @else {
 
