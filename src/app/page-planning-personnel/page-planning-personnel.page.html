@@ -1,0 +1,88 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mon planning</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-accordion-group id="planning-personnel-accordion">
+    <ion-accordion value="rechercher">
+      <ion-item slot="header" color="light">
+        <ion-label>Rechercher / filtrer</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-list>
+          <ion-item>
+            <ion-input label="Nom :" placeholder="Taper une partie du nom" [clearInput]="true" [(ngModel)]="flt_nom"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select label="Type :" interface="popover" [(ngModel)]="flt_type">
+              <ion-select-option value="">Tous</ion-select-option>
+              <ion-select-option value="evenement">Evénements</ion-select-option>
+              <ion-select-option value="exposant">Exposants</ion-select-option>
+              <ion-select-option value="personne">Auteurs / personnes</ion-select-option>
+              <ion-select-option value="lieu">Lieux</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select label="Jour :" interface="popover" [(ngModel)]="flt_jour">
+              <ion-select-option value="">Les deux jours</ion-select-option>
+              <ion-select-option value="2026-11-21">Samedi 21</ion-select-option>
+              <ion-select-option value="2026-11-22">Dimanche 22</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-select label="A partir de :" interface="popover" [(ngModel)]="flt_debut">
+              <ion-select-option value="">Toute la journée</ion-select-option>
+              @for( heure of heures; track heure )
+              {
+                <ion-select-option [value]="heure">{{heure.replace(":", "h")}}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-button (click)="onFiltrer()">Filtrer</ion-button>
+            <ion-button fill="outline" (click)="onEffacer()">Effacer</ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mon planning</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <app-liste-etapes
+    [nom]="nom"
+    [type]="type"
+    [jour]="jour"
+    [debut]="debut"
+    (onEtapeSupprimee)="rafraichit()"></app-liste-etapes>
+</ion-content>
+
+@if( nbEtapes() > 0 )
+{
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title size="small">{{nbEtapes()}} étape(s) au total</ion-title>
+      <ion-buttons slot="end">
+        <ion-button color="danger" (click)="alerteVider.set(true)">Vider le planning</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+}
+
+<ion-alert
+  [isOpen]="alerteVider()"
+  (didDismiss)="alerteVider.set(false)"
+  header="Vider le planning ?"
+  message="Toutes les étapes seront supprimées."
+  [buttons]="boutonsVider">
+</ion-alert>

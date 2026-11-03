@@ -20,6 +20,7 @@ import {
 import { Observable } from 'rxjs';
 import { Exposant } from '../../modeles/Exposant';
 import { ExposantService } from '../../servcies/exopsant.service';
+import { AjouterEtapeButtonComponent } from '../../components/ajouter-etape-button/ajouter-etape-button.component';
 
 @Component({
   selector: 'app-page-exposant',
@@ -38,7 +39,8 @@ import { ExposantService } from '../../servcies/exopsant.service';
     IonLabel,
     AsyncPipe,
     CommonModule, 
-    FormsModule]
+    FormsModule,
+    AjouterEtapeButtonComponent]
 })
 export class PageExposantPage implements OnInit 
 {

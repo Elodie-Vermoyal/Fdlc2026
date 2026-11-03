@@ -29,6 +29,10 @@
           <h2>{{exposant.nom}}</h2>
           <p>Stand n° {{exposant.numLieu}}</p>
         </ion-label>
+        <app-ajouter-etape-button slot="end"
+          [nom]="exposant.nom"
+          [idExposant]="exposant.id"
+          [numLieu]="exposant.numLieu"></app-ajouter-etape-button>
       </ion-item>
     }
   </ion-list>

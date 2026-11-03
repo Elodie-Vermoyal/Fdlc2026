@@ -1,0 +1,42 @@
+<ion-list>
+  @for( jour of jours(); track jour.jour )
+  {
+    <ion-item-divider color="light" sticky>
+      <ion-label>{{jour.jour}}</ion-label>
+      <ion-note slot="end">{{jour.etapes.length}} étape(s)</ion-note>
+    </ion-item-divider>
+
+    @for( etape of jour.etapes; track etape.id )
+    {
+      <ion-item-sliding #sliding>
+        <ion-item [routerLink]="lien(etape)" [detail]="false">
+          <ion-icon slot="start" [name]="icone(etape)" color="primary"></ion-icon>
+          <ion-label><div [innerHTML]="itemText(etape)"></div></ion-label>
+          <ion-button slot="end" fill="clear" color="medium" aria-label="Supprimer"
+                      (click)="$event.stopPropagation(); $event.preventDefault(); onSupprime( etape )">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="onSupprime( etape, sliding )">Supprimer</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    }
+  }
+  @empty
+  {
+    <ion-item lines="none" class="vide">
+      <ion-label class="ion-text-wrap">
+        @if( etapes().length === 0 )
+        {
+          Votre planning est vide. Utilisez le bouton Plannifier sur la page d'un exposant,
+          d'un auteur ou d'un événement pour l'ajouter ici.
+        }
+        @else
+        {
+          Aucune étape ne correspond à la recherche.
+        }
+      </ion-label>
+    </ion-item>
+  }
+</ion-list>
