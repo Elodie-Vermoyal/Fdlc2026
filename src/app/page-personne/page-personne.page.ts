@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Personne } from '../../modeles/personne';
+import { Personne } from '../../modeles/Personne';
 import { PersonneService } from '../../servcies/personne.service';
 
 import {IonContent, IonHeader, IonTitle, IonToolbar} from '@ionic/angular';
@@ -19,7 +19,7 @@ import {IonContent, IonHeader, IonTitle, IonToolbar} from '@ionic/angular';
 export class PagePersonnePage implements OnInit {
 
   // Identifiant de la personne à afficher
-  protected idPersonne: number = 0;
+  protected idPersonne: number = -1 ;
 
   // Informations récupérées depuis le service
   protected personne: Observable<Personne> | null = null;
@@ -40,8 +40,9 @@ export class PagePersonnePage implements OnInit {
     console.log('Identifiant de la personne :', this.idPersonne);
 
     // Récupérer les informations de la personne
-    if (this.idPersonne > 0) {
-      this.personne = this.personneService.getPersonne(this.idPersonne);
+    if (this.idPersonne > -1) 
+    {
+      this.personne = this.personneService.getPersonneById(this.idPersonne);
     }
   }
 }

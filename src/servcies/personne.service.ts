@@ -30,16 +30,16 @@ export class PersonneService
 
         return this.http.get<Personne[]>( url ) ;
     }
-
+        
     // Renvoie la personne d'id donné (null si elle n'existe pas)
-    getPersonneById( id: number ): Observable<Personne | null>
+    getPersonneById( id: number ): Observable<Personne>
     {
-        return this.http.get<Personne | null>( "php/personne/personne-by-id.php?id=" + id ) ;
+        return this.http.get<Personne>( "php/personne/personne-by-id.php?id=" + id ) ;
     }
 
     // Renvoie les personnes correspondant aux critères renseignés.
     // Les critères vides ("" ou -1) sont ignorés, les autres se cumulent (AND).
-    getListePersonnesBy(
+    getToutesLesPersonnesK(
         id: number = -1,
         specialite: string = "",
         idExposant: number = -1,
