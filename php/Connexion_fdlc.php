@@ -13,10 +13,20 @@
             "stand" => "fdlc_stand",
             "exposant" => "fdlc_exposant",
             "exposer" => "fdlc_exposer",
-            "auteur" => "fdlc_auteur",
+            "personne" => "fdlc_personne",
             "hall" => "fdlc_hall",
             "import" => "fdlc_import",
-            "AuteurExposantExposer" => "fdlc_AuteurExposantExposer"
+            "ecrire" => "fdlc_ecrire",
+            "editeur" => "fdlc_editeur",
+            "evenement" => "fdlc_evenement",
+            "lieu" => "fdlc_lieu",
+            "livre" => "fdlc_livre",
+            "presenter" => "fdlc_presenter",
+            "specialite" => "fdlc_specialite",
+            "typelieu" => "fdlc_typelieu",
+            "typeevenement" => "fdlc_typeevenement",
+            "PersonneExposantExposer" => "fdlc_PersonneExposantExposer",
+            "PersonneExposantExposerLieu" => "fdlc_PersonneExposantExposerLieu"
          ) ;
 
         /**
