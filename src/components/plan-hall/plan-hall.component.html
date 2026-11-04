@@ -18,6 +18,7 @@
         {
           <rect class="zone"
             [class.selection]="lieu.num == numLieu()"
+            [class.clique]="lieu.num == lieuClique()?.num"
             [attr.x]="lieu.x1" [attr.y]="lieu.y1"
             [attr.width]="lieu.x2 - lieu.x1" [attr.height]="lieu.y2 - lieu.y1"
             (click)="onClickZone( lieu )">
@@ -37,3 +38,11 @@
     }
   </div>
 </div>
+
+<!-- en attendant la page d'information des lieux -->
+<ion-toast
+  [isOpen]="lieuClique() != null"
+  [message]="lieuClique() ? nomLieu( lieuClique()! ) + ' : page d\'information bientôt disponible' : ''"
+  [duration]="2000"
+  (didDismiss)="lieuClique.set(null)">
+</ion-toast>

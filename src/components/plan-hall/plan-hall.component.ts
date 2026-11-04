@@ -6,6 +6,7 @@ import { addOutline, removeOutline } from 'ionicons/icons';
 import {
   IonButton,
   IonIcon,
+  IonToast,
  } from '@ionic/angular';
 
 import { LieuService } from '../../servcies/lieu.service';
@@ -18,6 +19,7 @@ import { Lieu } from '../../modeles/Lieu';
   imports: [
     IonButton,
     IonIcon,
+    IonToast,
   ],
 })
 export class PlanHallComponent  implements OnChanges
@@ -45,6 +47,9 @@ export class PlanHallComponent  implements OnChanges
 
   protected zoom = signal(1) ;
 
+  // Lieu sur lequel on vient de cliquer (affiché en surbrillance avec un message)
+  protected lieuClique = signal<Lieu | null>( null ) ;
+
   // Seulement les lieux qui ont une zone dessinée
   protected zones = computed( () => this.lieux().filter( l => l.x1 != null && l.x2 != null ) ) ;
 
@@ -71,7 +76,22 @@ export class PlanHallComponent  implements OnChanges
 
   onClickZone( lieu: Lieu )
   {
-    this.router.navigate( [this.lienPage(), lieu.num] ) ;
+    if( this.pageExiste() ) this.router.navigate( [this.lienPage(), lieu.num] ) ;
+    else this.lieuClique.set( lieu ) ;
+  }
+
+  // Vrai si la page d'information des lieux est déclarée dans les routes
+  private pageExiste(): boolean
+  {
+    let page = this.lienPage().replace( "/", "" ) ;
+    return this.router.config.some( route => route.path?.startsWith( page + "/" ) ) ;
+  }
+
+  // ex : "Stand 222", sinon le nom du lieu
+  protected nomLieu( lieu: Lieu ): string
+  {
+    if( lieu.type == "stand" ) return "Stand " + lieu.num ;
+    return lieu.nom || "Lieu " + lieu.num ;
   }
 
   changeZoom( pas: number )
