@@ -70,3 +70,10 @@ text
     fill: #1b5e20;
     pointer-events: none;
 }
+
+// fenetre de changement du mot de passe
+ion-modal.changement-mdp
+{
+    --width: min(400px, 100%);
+    --height: min(420px, 100%);
+}

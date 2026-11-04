@@ -18,6 +18,7 @@ import {
   IonSelectOption,
   IonNote,
   IonToast,
+  IonModal,
 } from '@ionic/angular';
 
 import { LieuService } from '../../servcies/lieu.service';
@@ -48,6 +49,7 @@ import { Lieu } from '../../modeles/Lieu';
     IonSelectOption,
     IonNote,
     IonToast,
+    IonModal,
     FormsModule
   ]
 })
@@ -75,6 +77,13 @@ export class PageConfigPlanPage
 
   protected message = signal("") ;
 
+  // Changement du mot de passe
+  protected modalMdp = signal(false) ;
+  protected ancienMdp: string = "" ;
+  protected nouveauMdp: string = "" ;
+  protected confirmationMdp: string = "" ;
+  protected erreurChangement = signal("") ;
+
   protected nbZones = computed( () => this.lieux().filter( l => l.x1 != null ).length ) ;
 
   constructor( serviceLieu: LieuService )
@@ -89,6 +98,33 @@ export class PageConfigPlanPage
       this.connecte.set( reponse.ok ) ;
       this.erreurMdp.set( !reponse.ok ) ;
       if( reponse.ok ) this.chargeHall( this.hall() ) ;
+    }) ;
+  }
+
+  ouvreChangementMdp()
+  {
+    this.ancienMdp = this.nouveauMdp = this.confirmationMdp = "" ;
+    this.erreurChangement.set( "" ) ;
+    this.modalMdp.set( true ) ;
+  }
+
+  onChangerMdp()
+  {
+    if( this.nouveauMdp != this.confirmationMdp )
+    {
+      this.erreurChangement.set( "Les deux nouveaux mots de passe sont différents" ) ;
+      return ;
+    }
+
+    this.serviceLieu.changeMotDePasse( this.ancienMdp, this.nouveauMdp ).subscribe( {
+      next: () =>
+      {
+        // le nouveau mot de passe sert pour les prochains enregistrements
+        this.mdp = this.nouveauMdp ;
+        this.modalMdp.set( false ) ;
+        this.message.set( "Mot de passe modifié" ) ;
+      },
+      error: erreur => this.erreurChangement.set( erreur.error?.erreur ?? "Erreur lors du changement" )
     }) ;
   }
 
