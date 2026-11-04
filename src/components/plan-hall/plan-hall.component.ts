@@ -1,4 +1,4 @@
-import { Component, OnChanges, computed, input, output, signal } from '@angular/core';
+import { Component, OnChanges, ChangeDetectorRef, ElementRef, computed, input, output, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { addOutline, removeOutline } from 'ionicons/icons';
@@ -51,6 +51,14 @@ export class PlanHallComponent  implements OnChanges
   private ecartDepart: number = 0 ;
   private zoomDepart: number = 1 ;
 
+  // Point du plan sous les doigts, en fraction de la taille du plan (0 à 1)
+  private pointX: number = 0 ;
+  private pointY: number = 0 ;
+
+  protected cadre = viewChild.required<ElementRef<HTMLElement>>( "cadre" ) ;
+  protected plan = viewChild.required<ElementRef<HTMLElement>>( "plan" ) ;
+  protected cdr: ChangeDetectorRef ;
+
   // Lieu sur lequel on vient de cliquer (affiché en surbrillance avec un message)
   protected lieuClique = signal<Lieu | null>( null ) ;
 
@@ -59,10 +67,11 @@ export class PlanHallComponent  implements OnChanges
 
   protected lieuSelectionne = computed( () => this.zones().find( l => l.num == this.numLieu() ) ) ;
 
-  constructor( serviceLieu: LieuService, router: Router )
+  constructor( serviceLieu: LieuService, router: Router, cdr: ChangeDetectorRef )
   {
     this.serviceLieu = serviceLieu ;
     this.router = router ;
+    this.cdr = cdr ;
     addIcons( { addOutline, removeOutline } ) ;
   }
 
@@ -98,11 +107,37 @@ export class PlanHallComponent  implements OnChanges
     return lieu.nom || "Lieu " + lieu.num ;
   }
 
+  // Boutons + et - : on zoome sur le centre de l'écran
   changeZoom( pas: number )
   {
-    let zoom = Math.min( 3, Math.max( 1, this.zoom() + pas ) ) ;
-    this.zoom.set( zoom ) ;
-    this.onZoom.emit( zoom > 1 ) ;
+    let cadre = this.cadre().nativeElement.getBoundingClientRect() ;
+    let x = cadre.left + cadre.width / 2 ;
+    let y = cadre.top + cadre.height / 2 ;
+
+    this.retientPoint( x, y ) ;
+    this.zoomeSur( this.zoom() + pas, x, y ) ;
+    this.onZoom.emit( this.zoom() > 1 ) ;
+  }
+
+  // Mémorise quel point du plan se trouve sous la position x, y de l'écran
+  private retientPoint( x: number, y: number )
+  {
+    let plan = this.plan().nativeElement.getBoundingClientRect() ;
+    this.pointX = ( x - plan.left ) / plan.width ;
+    this.pointY = ( y - plan.top ) / plan.height ;
+  }
+
+  // Change le zoom puis fait défiler le cadre pour que le point retenu reste en x, y
+  private zoomeSur( zoom: number, x: number, y: number )
+  {
+    this.zoom.set( Math.min( 3, Math.max( 1, zoom ) ) ) ;
+    // met à jour la taille du plan tout de suite
+    this.cdr.detectChanges() ;
+
+    let plan = this.plan().nativeElement.getBoundingClientRect() ;
+    let cadre = this.cadre().nativeElement ;
+    cadre.scrollLeft += plan.left + this.pointX * plan.width - x ;
+    cadre.scrollTop += plan.top + this.pointY * plan.height - y ;
   }
 
   onTouchStart( event: TouchEvent )
@@ -111,6 +146,8 @@ export class PlanHallComponent  implements OnChanges
 
     this.ecartDepart = this.ecart( event ) ;
     this.zoomDepart = this.zoom() ;
+    let milieu = this.milieu( event ) ;
+    this.retientPoint( milieu.x, milieu.y ) ;
     // pas de changement de hall pendant le zoom
     this.onZoom.emit( true ) ;
   }
@@ -120,8 +157,9 @@ export class PlanHallComponent  implements OnChanges
     if( event.touches.length != 2 || this.ecartDepart == 0 ) return ;
 
     event.preventDefault() ;
-    let zoom = this.zoomDepart * this.ecart( event ) / this.ecartDepart ;
-    this.zoom.set( Math.min( 3, Math.max( 1, zoom ) ) ) ;
+    // le milieu des doigts suit aussi le déplacement de la main
+    let milieu = this.milieu( event ) ;
+    this.zoomeSur( this.zoomDepart * this.ecart( event ) / this.ecartDepart, milieu.x, milieu.y ) ;
   }
 
   onTouchEnd( event: TouchEvent )
@@ -139,5 +177,13 @@ export class PlanHallComponent  implements OnChanges
     let a = event.touches[0] ;
     let b = event.touches[1] ;
     return Math.hypot( a.clientX - b.clientX, a.clientY - b.clientY ) ;
+  }
+
+  // Point au milieu des deux doigts
+  private milieu( event: TouchEvent ): { x: number, y: number }
+  {
+    let a = event.touches[0] ;
+    let b = event.touches[1] ;
+    return { x: ( a.clientX + b.clientX ) / 2, y: ( a.clientY + b.clientY ) / 2 } ;
   }
 }

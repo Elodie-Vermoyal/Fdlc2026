@@ -1,11 +1,16 @@
 
 :host
 {
-    display: block;
+    // le cadre prend toute la hauteur restante et défile dans les deux sens
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .cadre
 {
+    flex: 1;
+    min-height: 0;
     overflow: auto;
     // le navigateur garde le défilement, le zoom à deux doigts est géré par le composant
     touch-action: pan-x pan-y;
