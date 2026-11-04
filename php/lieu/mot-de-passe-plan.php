@@ -1,14 +1,10 @@
 <?php
 
-// Mot de passe de la page de configuration des plans (stocke hashé).
-// Il se change depuis la page de configuration, le nouveau hash est
-// enregistré dans mot-de-passe-plan.hash.php (fichier php pour qu'il
-// ne soit pas lisible depuis le navigateur).
+// Mot de passe de la page config des plans, on garde seulement le hash.
+// Quand on le change, le hash est mis dans mot-de-passe-plan.hash.php
 //
-// Mot de passe oublié :
-//  - supprimer mot-de-passe-plan.hash.php pour revenir au mot de passe par defaut (fdlc2026)
-//  - ou en mettre un autre directement :
-//    php -r "file_put_contents('mot-de-passe-plan.hash.php', '<?php return ' . var_export(password_hash('nouveau', PASSWORD_DEFAULT), true) . ';');"
+// Pour le reset : supprimer mot-de-passe-plan.hash.php (retour a fdlc2026) ou faire
+// php -r "file_put_contents('mot-de-passe-plan.hash.php', '<?php return ' . var_export(password_hash('nouveau', PASSWORD_DEFAULT), true) . ';');"
 
 $hashParDefaut = '$2y$10$TeU61z314J7aeOz9nvUVKubTurNyDkHQqm6oSpzc5rwzJHG0GP9eC' ;
 $fichierHash = __DIR__ . "/mot-de-passe-plan.hash.php" ;
