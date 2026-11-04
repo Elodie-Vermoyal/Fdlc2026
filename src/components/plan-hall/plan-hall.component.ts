@@ -1,4 +1,4 @@
-import { Component, OnChanges, ChangeDetectorRef, ElementRef, computed, input, output, signal, viewChild } from '@angular/core';
+import { Component, OnChanges, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, computed, input, output, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { addOutline, removeOutline } from 'ionicons/icons';
@@ -22,7 +22,7 @@ import { Lieu } from '../../modeles/Lieu';
     IonToast,
   ],
 })
-export class PlanHallComponent  implements OnChanges
+export class PlanHallComponent  implements OnChanges, AfterViewInit, OnDestroy
 {
   // Numero du hall affiché
   public    numHall = input.required<number>() ;
@@ -46,6 +46,10 @@ export class PlanHallComponent  implements OnChanges
   protected hauteur = signal(0) ;
 
   protected zoom = signal(1) ;
+
+  // Largeur du plan sans zoom : le hall doit tenir en entier dans le cadre
+  protected largeurBase = signal(0) ;
+  private observateur: ResizeObserver | null = null ;
 
   // Zoom avec deux doigts : écart entre les doigts et zoom au début du geste
   private ecartDepart: number = 0 ;
@@ -80,11 +84,35 @@ export class PlanHallComponent  implements OnChanges
     this.serviceLieu.getLieuxDuHall( this.numHall() ).subscribe( lieux => this.lieux.set( lieux ) ) ;
   }
 
+  // Recalcule la taille du plan quand le cadre change de taille
+  // (rotation de l'écran, fenêtre redimensionnée, onglet du hall affiché)
+  ngAfterViewInit()
+  {
+    this.observateur = new ResizeObserver( () => this.calculeLargeurBase() ) ;
+    this.observateur.observe( this.cadre().nativeElement ) ;
+  }
+
+  ngOnDestroy()
+  {
+    this.observateur?.disconnect() ;
+  }
+
   onImageChargee( event: Event )
   {
     let image = event.target as HTMLImageElement ;
     this.largeur.set( image.naturalWidth ) ;
     this.hauteur.set( image.naturalHeight ) ;
+    this.calculeLargeurBase() ;
+  }
+
+  // Plus grande largeur pour que l'image tienne en largeur et en hauteur (1100 px max)
+  private calculeLargeurBase()
+  {
+    let cadre = this.cadre().nativeElement ;
+    if( this.largeur() == 0 || cadre.clientWidth == 0 ) return ;
+
+    let largeur = Math.min( cadre.clientWidth, cadre.clientHeight * this.largeur() / this.hauteur(), 1100 ) ;
+    this.largeurBase.set( Math.floor( largeur ) ) ;
   }
 
   onClickZone( lieu: Lieu )
