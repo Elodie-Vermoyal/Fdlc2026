@@ -1,8 +1,9 @@
 
+// taille fixe sinon le contenu de la fenetre ne s'affiche pas
 ion-modal.choix-heure
 {
-    --height: auto;
-    --max-width: 400px;
+    --width: min(400px, 100%);
+    --height: min(600px, 100%);
 }
 
 ion-datetime
