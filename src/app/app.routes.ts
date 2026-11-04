@@ -17,4 +17,9 @@ export const routes: Routes = [
     path: 'page-exposant/:id',
     loadComponent: () => import('./page-exposant/page-exposant.page').then( m => m.PageExposantPage)
   },
+
+  {
+    path: 'page-liste-personnes',
+    loadComponent: () => import('./page-liste-personnes/page-liste-personnes.page').then( m => m.PageListePersonnesPage)
+  }
 ];
