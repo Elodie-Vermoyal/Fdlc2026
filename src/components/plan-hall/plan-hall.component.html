@@ -1,0 +1,39 @@
+<div class="boutons-zoom">
+  <ion-button size="small" (click)="changeZoom( 0.5 )" [disabled]="zoom() >= 3">
+    <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+  </ion-button>
+  <ion-button size="small" (click)="changeZoom( -0.5 )" [disabled]="zoom() <= 1">
+    <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+  </ion-button>
+</div>
+
+<div class="cadre">
+  <div class="plan" [style.width.%]="zoom() * 100">
+    <img [src]="'assets/plans/hall' + numHall() + '.png'" [alt]="'Plan du hall ' + numHall()" (load)="onImageChargee($event)">
+
+    @if( largeur() > 0 )
+    {
+      <svg [attr.viewBox]="'0 0 ' + largeur() + ' ' + hauteur()">
+        @for( lieu of zones(); track lieu.num )
+        {
+          <rect class="zone"
+            [class.selection]="lieu.num == numLieu()"
+            [attr.x]="lieu.x1" [attr.y]="lieu.y1"
+            [attr.width]="lieu.x2 - lieu.x1" [attr.height]="lieu.y2 - lieu.y1"
+            (click)="onClickZone( lieu )">
+            <title>{{ lieu.nom || lieu.num }}</title>
+          </rect>
+        }
+
+        <!-- repère au dessus du lieu recherché -->
+        @if( lieuSelectionne(); as lieu )
+        {
+          <circle class="repere"
+            [attr.cx]="(lieu.x1 + lieu.x2) / 2"
+            [attr.cy]="lieu.y1 > 34 ? lieu.y1 - 20 : lieu.y2 + 20"
+            r="14" />
+        }
+      </svg>
+    }
+  </div>
+</div>
