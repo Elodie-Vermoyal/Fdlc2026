@@ -36,10 +36,10 @@
         **/
         public static function getInstance()
         {
-            $serveur = 'mysql:host=localhost:3306;';
-            $bdd = 'dbname=fdlc;charset=utf8mb4';   		
+            $serveur = 'mysql:host=localhost;port=3306;';
+            $bdd = 'dbname=fdlc;charset=utf8mb4_unicode_ci';   		
             $user = 'root' ; 
-            $mdp = 'root' ;
+            $mdp = '' ;
 
             if(!self::$connexion){
                 try {

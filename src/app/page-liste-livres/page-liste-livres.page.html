@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Livres</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-accordion-group>
+    <ion-accordion value="rechercher">
+      <ion-item slot="header" color="light">
+        <ion-label>Rechercher</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+        <!-- Titre du livre (partie) + combo -->
+        <app-titre-livre-combo
+          [titre]="saisie.titreLivre"
+          (valeurChange)="saisie.titreLivre = $any($event)">
+        </app-titre-livre-combo>
+
+        <!-- Nom de l'auteur (partie) + combo -->
+        <app-nom-auteur-combo
+          [nom]="saisie.nomAuteur"
+          (valeurChange)="saisie.nomAuteur = $any($event)">
+        </app-nom-auteur-combo>
+
+        <!-- Genre : pas de combo dans le PDF, saisie libre en attendant app-genre-combo -->
+        <ion-item>
+          <ion-input
+            label="Genre"
+            labelPlacement="floating"
+            [(ngModel)]="saisie.genre">
+          </ion-input>
+        </ion-item>
+
+        <!-- Nom de l'exposant (partie) + combo -->
+        <app-nom-exposant-combo
+          [nom]="saisie.nomExposant"
+          (valeurChange)="saisie.nomExposant = $any($event)">
+        </app-nom-exposant-combo>
+
+        <div class="boutons">
+          <ion-button expand="block" (click)="appliquer()">Rechercher</ion-button>
+          <ion-button expand="block" fill="outline" (click)="reinitialiser()">Réinitialiser</ion-button>
+        </div>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+  <!-- Liste des livres filtrée (critères combinés en AND) -->
+  <app-liste-livres
+    [titreLivre]="criteres.titreLivre"
+    [nomAuteur]="criteres.nomAuteur"
+    [genre]="criteres.genre"
+    [nomExposant]="criteres.nomExposant"
+    [lienPage]="lienPage">
+  </app-liste-livres>
+</ion-content>
