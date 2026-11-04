@@ -1,0 +1,104 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configuration des plans</ion-title>
+  </ion-toolbar>
+  @if( connecte() )
+  {
+    <ion-toolbar>
+      <ion-segment [value]="hall()" (ionChange)="chargeHall( +$any($event.detail.value) )">
+        @for( h of halls; track h )
+        {
+          <ion-segment-button [value]="h">
+            <ion-label>Hall {{h}}</ion-label>
+          </ion-segment-button>
+        }
+      </ion-segment>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-item lines="none">
+        <ion-select label="Lieu :" placeholder="Choisir un lieu" interface="popover"
+                    [(ngModel)]="numChoisi" (ionChange)="zone.set(null)">
+          @for( lieu of lieux(); track lieu.num )
+          {
+            <ion-select-option [value]="lieu.num">
+              {{lieu.num}} {{ lieu.nom && lieu.nom != lieu.num.toString() ? "- " + lieu.nom : "" }} {{ lieu.x1 != null ? "(zone ok)" : "" }}
+            </ion-select-option>
+          }
+        </ion-select>
+        <ion-note slot="end">{{nbZones()}} / {{lieux().length}} zones</ion-note>
+      </ion-item>
+      <ion-buttons slot="end">
+        <ion-button fill="solid" color="primary" [disabled]="!zone() || numChoisi < 0" (click)="onEnregistrer()">Enregistrer</ion-button>
+        <ion-button fill="outline" color="danger" [disabled]="lieuChoisi()?.x1 == null" (click)="onSupprimer()">Supprimer</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  }
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if( !connecte() )
+  {
+    <ion-list class="connexion">
+      <ion-item>
+        <ion-input type="password" label="Mot de passe :" [(ngModel)]="mdp" (keyup.enter)="onConnexion()"></ion-input>
+      </ion-item>
+      @if( erreurMdp() )
+      {
+        <ion-note color="danger">Mot de passe incorrect</ion-note>
+      }
+      <ion-button expand="block" (click)="onConnexion()">Valider</ion-button>
+    </ion-list>
+  }
+  @else
+  {
+    <p class="aide">
+      Choisir un lieu puis dessiner sa zone sur le plan en restant appuyé.
+      On peut aussi cliquer sur une zone existante pour la sélectionner.
+    </p>
+
+    <div class="plan">
+      <img [src]="'assets/plans/hall' + hall() + '.png'" (load)="onImageChargee($event)">
+
+      @if( largeur() > 0 )
+      {
+        <svg [attr.viewBox]="'0 0 ' + largeur() + ' ' + hauteur()"
+             [class.dessin]="numChoisi >= 0"
+             (pointerdown)="onPointerDown($event)"
+             (pointermove)="onPointerMove($event)"
+             (pointerup)="onPointerUp($event)">
+
+          @for( lieu of lieux(); track lieu.num )
+          {
+            @if( lieu.x1 != null )
+            {
+              <rect class="zone" [class.choisie]="lieu.num == numChoisi"
+                [attr.x]="lieu.x1" [attr.y]="lieu.y1"
+                [attr.width]="lieu.x2 - lieu.x1" [attr.height]="lieu.y2 - lieu.y1"
+                (click)="onClickZone( lieu )" />
+              <text [attr.x]="lieu.x1 + 4" [attr.y]="lieu.y1 + 20">{{lieu.num}}</text>
+            }
+          }
+
+          @if( zone(); as z )
+          {
+            <rect class="nouvelle"
+              [attr.x]="z.x1 < z.x2 ? z.x1 : z.x2" [attr.y]="z.y1 < z.y2 ? z.y1 : z.y2"
+              [attr.width]="z.x1 < z.x2 ? z.x2 - z.x1 : z.x1 - z.x2"
+              [attr.height]="z.y1 < z.y2 ? z.y2 - z.y1 : z.y1 - z.y2" />
+          }
+        </svg>
+      }
+    </div>
+  }
+
+  <ion-toast
+    [isOpen]="message() !== ''"
+    [message]="message()"
+    [duration]="2000"
+    (didDismiss)="message.set('')">
+  </ion-toast>
+</ion-content>

@@ -33,6 +33,11 @@ export const routes: Routes = [
     loadComponent: () => import('./tabs/tabs.page').then( m => m.TabsPage)
   },
   {
+    // Page de configuration des zones des plans, pas dans le menu (protégée par mot de passe)
+    path: 'config-plan',
+    loadComponent: () => import('./page-config-plan/page-config-plan.page').then( m => m.PageConfigPlanPage)
+  },
+  {
     path: 'page-planning-personnel',
     loadComponent: () => import('./page-planning-personnel/page-planning-personnel.page').then( m => m.PagePlanningPersonnelPage)
   },
