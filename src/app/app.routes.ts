@@ -24,6 +24,15 @@ export const routes: Routes = [
       .then(m => m.PagePersonnePage)
   },
   {
+    // Plans des halls, ex : /plans/3?numLieu=302
+    path: 'plans',
+    loadComponent: () => import('./tabs/tabs.page').then( m => m.TabsPage)
+  },
+  {
+    path: 'plans/:numHall',
+    loadComponent: () => import('./tabs/tabs.page').then( m => m.TabsPage)
+  },
+  {
     path: 'page-planning-personnel',
     loadComponent: () => import('./page-planning-personnel/page-planning-personnel.page').then( m => m.PagePlanningPersonnelPage)
   },
