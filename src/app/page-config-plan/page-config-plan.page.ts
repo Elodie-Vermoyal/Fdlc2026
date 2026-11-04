@@ -19,6 +19,7 @@ import {
   IonNote,
   IonToast,
   IonModal,
+  IonAlert,
 } from '@ionic/angular';
 
 import { LieuService } from '../../servcies/lieu.service';
@@ -50,6 +51,7 @@ import { Lieu } from '../../modeles/Lieu';
     IonNote,
     IonToast,
     IonModal,
+    IonAlert,
     FormsModule
   ]
 })
@@ -76,6 +78,14 @@ export class PageConfigPlanPage
   private dessinEnCours: boolean = false ;
 
   protected message = signal("") ;
+
+  // Confirmation avant de supprimer une zone
+  protected alerteSupprimer = signal(false) ;
+
+  protected readonly boutonsSupprimer = [
+    { text: "Annuler", role: "cancel" },
+    { text: "Supprimer", role: "destructive", handler: () => this.onSupprimer() }
+  ] ;
 
   // Changement du mot de passe
   protected modalMdp = signal(false) ;

@@ -38,7 +38,7 @@
       </ion-item>
       <ion-buttons slot="end">
         <ion-button fill="solid" color="primary" [disabled]="!zone() || numChoisi < 0" (click)="onEnregistrer()">Enregistrer</ion-button>
-        <ion-button fill="outline" color="danger" [disabled]="lieuChoisi()?.x1 == null" (click)="onSupprimer()">Supprimer</ion-button>
+        <ion-button fill="outline" color="danger" [disabled]="lieuChoisi()?.x1 == null" (click)="alerteSupprimer.set(true)">Supprimer</ion-button>
       </ion-buttons>
     </ion-toolbar>
   }
@@ -132,6 +132,14 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+  <ion-alert
+    [isOpen]="alerteSupprimer()"
+    (didDismiss)="alerteSupprimer.set(false)"
+    header="Supprimer la zone ?"
+    [message]="'La zone du lieu ' + numChoisi + ' ne sera plus affichée sur le plan.'"
+    [buttons]="boutonsSupprimer">
+  </ion-alert>
 
   <ion-toast
     [isOpen]="message() !== ''"
