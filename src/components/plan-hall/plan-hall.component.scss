@@ -7,6 +7,8 @@
 .cadre
 {
     overflow: auto;
+    // le navigateur garde le défilement, le zoom à deux doigts est géré par le composant
+    touch-action: pan-x pan-y;
 }
 
 // l'image et le svg sont superposés et ont la même taille

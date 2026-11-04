@@ -47,6 +47,10 @@ export class PlanHallComponent  implements OnChanges
 
   protected zoom = signal(1) ;
 
+  // Zoom avec deux doigts : écart entre les doigts et zoom au début du geste
+  private ecartDepart: number = 0 ;
+  private zoomDepart: number = 1 ;
+
   // Lieu sur lequel on vient de cliquer (affiché en surbrillance avec un message)
   protected lieuClique = signal<Lieu | null>( null ) ;
 
@@ -99,5 +103,41 @@ export class PlanHallComponent  implements OnChanges
     let zoom = Math.min( 3, Math.max( 1, this.zoom() + pas ) ) ;
     this.zoom.set( zoom ) ;
     this.onZoom.emit( zoom > 1 ) ;
+  }
+
+  onTouchStart( event: TouchEvent )
+  {
+    if( event.touches.length != 2 ) return ;
+
+    this.ecartDepart = this.ecart( event ) ;
+    this.zoomDepart = this.zoom() ;
+    // pas de changement de hall pendant le zoom
+    this.onZoom.emit( true ) ;
+  }
+
+  onTouchMove( event: TouchEvent )
+  {
+    if( event.touches.length != 2 || this.ecartDepart == 0 ) return ;
+
+    event.preventDefault() ;
+    let zoom = this.zoomDepart * this.ecart( event ) / this.ecartDepart ;
+    this.zoom.set( Math.min( 3, Math.max( 1, zoom ) ) ) ;
+  }
+
+  onTouchEnd( event: TouchEvent )
+  {
+    if( this.ecartDepart == 0 || event.touches.length > 0 ) return ;
+
+    this.ecartDepart = 0 ;
+    // apres la fin du swipe des tabs, sinon le hall change quand on dézoome
+    setTimeout( () => this.onZoom.emit( this.zoom() > 1 ) ) ;
+  }
+
+  // Distance entre les deux doigts
+  private ecart( event: TouchEvent ): number
+  {
+    let a = event.touches[0] ;
+    let b = event.touches[1] ;
+    return Math.hypot( a.clientX - b.clientX, a.clientY - b.clientY ) ;
   }
 }
