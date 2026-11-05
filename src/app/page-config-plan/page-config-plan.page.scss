@@ -1,0 +1,66 @@
+
+.aide
+{
+    color: var(--ion-color-medium);
+    font-size: 0.9em;
+}
+
+.plan
+{
+    position: relative;
+    max-width: 1100px;
+    margin-top: 10px;
+}
+
+.plan img
+{
+    display: block;
+    width: 100%;
+}
+
+.plan svg
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+// empêche le défilement de la page quand on dessine au doigt
+svg.dessin
+{
+    touch-action: none;
+    cursor: crosshair;
+}
+
+.zone
+{
+    fill: rgba(76, 175, 80, 0.3);
+    stroke: #2e7d32;
+    stroke-width: 3;
+    cursor: pointer;
+}
+
+.zone.choisie
+{
+    fill: rgba(255, 152, 0, 0.4);
+    stroke: #e65100;
+}
+
+.nouvelle
+{
+    fill: rgba(33, 150, 243, 0.3);
+    stroke: #1565c0;
+    stroke-width: 3;
+    stroke-dasharray: 10 6;
+    pointer-events: none;
+}
+
+text
+{
+    font-size: 20px;
+    font-weight: bold;
+    fill: #1b5e20;
+    pointer-events: none;
+}

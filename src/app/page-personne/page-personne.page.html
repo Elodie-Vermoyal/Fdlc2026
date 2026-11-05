@@ -1,0 +1,38 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Fiche personne {{id()}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (personne | async; as p) 
+  {
+
+    <h1>{{ p.prenom }} {{ p.nom }}</h1>
+
+    @if( p.specialite )
+    {
+      <h2>Spécialité</h2>
+      <p>{{p.specialite}}</p>
+    }
+
+    @if( p.biographie )
+    {
+      <h2>Biographie</h2>
+      <p>{{p.biographie}}</p>
+    }
+
+    @if( p.photo )
+    {
+      <ion-img [src]="p.photo"/>
+    }
+
+  } @else {
+
+    <p>Chargement des informations...</p>
+
+  }
+
+</ion-content>

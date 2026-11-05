@@ -1,0 +1,84 @@
+
+:host
+{
+    // le cadre prend toute la hauteur restante et défile dans les deux sens
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cadre
+{
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    // le navigateur garde le défilement, le zoom à deux doigts est géré par le composant
+    touch-action: pan-x pan-y;
+}
+
+// l'image et le svg sont superposés et ont la même taille
+.plan
+{
+    position: relative;
+    margin: auto;
+}
+
+.plan img
+{
+    display: block;
+    width: 100%;
+}
+
+.plan svg
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.zone
+{
+    fill: transparent;
+    cursor: pointer;
+}
+
+.zone:hover, .zone:active
+{
+    fill: rgba(255, 196, 9, 0.35);
+}
+
+.zone.selection
+{
+    fill: rgba(255, 196, 9, 0.25);
+    stroke: #ff9800;
+    stroke-width: 6;
+}
+
+.zone.clique
+{
+    fill: rgba(56, 128, 255, 0.35);
+    stroke: #3880ff;
+    stroke-width: 6;
+}
+
+.repere
+{
+    fill: #e53935;
+    stroke: white;
+    stroke-width: 5;
+    pointer-events: none;
+    animation: clignote 1s infinite alternate;
+}
+
+@keyframes clignote
+{
+    from { opacity: 1; }
+    to   { opacity: 0.3; }
+}
+
+.boutons-zoom
+{
+    text-align: right;
+}

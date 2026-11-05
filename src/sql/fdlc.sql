@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 02 nov. 2026 à 13:45
+-- Généré le : lun. 02 nov. 2026 à 15:38
 -- Version du serveur : 11.8.6-MariaDB-0+deb13u1 from Debian
 -- Version de PHP : 8.4.26
 
@@ -12,6 +12,10 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de données : `fdlc`
@@ -26,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `ecrire` (
   `idPersonne` int(11) NOT NULL,
   `idLivre` int(11) NOT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -37,7 +41,7 @@ CREATE TABLE `ecrire` (
 CREATE TABLE `editeur` (
   `id` int(11) NOT NULL,
   `nom` varchar(80) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `editeur`
@@ -83,7 +87,7 @@ CREATE TABLE `evenement` (
   `fin` datetime DEFAULT NULL,
   `idAnimateur` int(11) DEFAULT NULL,
   `numLieu` int(11) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -95,7 +99,7 @@ CREATE TABLE `exposant` (
   `id` int(11) NOT NULL,
   `numLieu` int(11) DEFAULT NULL,
   `nom` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `exposant`
@@ -245,7 +249,7 @@ CREATE TABLE `exposer` (
   `samedi_pm` tinyint(1) DEFAULT NULL,
   `dimanche_am` tinyint(1) DEFAULT NULL,
   `dimanche_pm` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `exposer`
@@ -577,7 +581,7 @@ INSERT INTO `exposer` (`idExposant`, `idPersonne`, `samedi_am`, `samedi_pm`, `di
 
 CREATE TABLE `genre` (
   `genre` varchar(20) NOT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `genre`
@@ -607,7 +611,7 @@ CREATE TABLE `import` (
   `COL 6` varchar(10) DEFAULT NULL,
   `COL 7` varchar(8) DEFAULT NULL,
   `COL 8` varchar(11) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `import`
@@ -948,7 +952,7 @@ CREATE TABLE `lieu` (
   `y1` int(11) DEFAULT NULL,
   `x2` int(11) DEFAULT NULL,
   `y2` int(11) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `lieu`
@@ -1017,7 +1021,7 @@ CREATE TABLE `livre` (
   `resume` varchar(1000) DEFAULT NULL,
   `idEditeur` int(11) DEFAULT NULL,
   `genre` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `livre`
@@ -1091,7 +1095,7 @@ CREATE TABLE `personne` (
   `specialite` varchar(20) DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `personne`
@@ -1641,7 +1645,7 @@ CREATE TABLE `PersonneExposantExposerLieu` (
 CREATE TABLE `presenter` (
   `idEvenement` int(11) NOT NULL,
   `idLivre` int(11) NOT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -1651,7 +1655,7 @@ CREATE TABLE `presenter` (
 
 CREATE TABLE `specialite` (
   `specialite` varchar(20) NOT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `specialite`
@@ -1671,7 +1675,7 @@ INSERT INTO `specialite` (`specialite`) VALUES
 
 CREATE TABLE `typeevenement` (
   `type` varchar(30) NOT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `typeevenement`
@@ -1699,7 +1703,7 @@ INSERT INTO `typeevenement` (`type`) VALUES
 
 CREATE TABLE `typelieu` (
   `type` varchar(20) NOT NULL
-) ENGINE=InnoDB  ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Déchargement des données de la table `typelieu`

@@ -1,0 +1,14 @@
+
+@for (exposant of exposants | async; track exposant.id)
+{
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ exposant.nom }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>Identifiant : {{ exposant.id }}</p>
+      <p>Numéro de stand : {{ exposant.numStand }}</p>
+    </ion-card-content>
+  </ion-card>
+}

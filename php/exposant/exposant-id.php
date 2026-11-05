@@ -1,30 +1,38 @@
+
 <?php
 
-require_once "../Connexion.php" ;
+header("Access-Control-Allow-Origin: http://localhost:8101");
+header("Content-Type: application/json; charset=UTF-8");
+
+require_once "../Connexion.php";
 
 try
 {
-    $bd = Connexion::getInstance() ;
+    $bd = Connexion::getInstance();
 
-    $sql = "select * from " . Connexion::$tables["exposant"] . " where id = :id " ;
+    $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
-    $cursor = $bd->prepare( $sql ) ;
-
-    if( isset($_GET["id"]))
+    if ($id === null || $id === false || $id <= 0)
     {
-        $cursor->bindValue( ":id", $_GET["id"], PDO::PARAM_INT ) ;
+        http_response_code(400);
+        echo json_encode([]);
+        exit;
     }
 
-    $cursor->execute() ;
+    $sql = "select distinct idExposant as id, nomExposant as nom, numLieu, nomLieu, hall from "
+         . Connexion::$tables["PersonneExposantExposerLieu"]
+         . " where idExposant = :id";
 
-    $data = $cursor->fetchAll( PDO::FETCH_ASSOC ) ;
+    $cursor = $bd->prepare($sql);
+    $cursor->bindValue(":id", $id, PDO::PARAM_INT);
+    $cursor->execute();
 
-    echo json_encode( $data ) ;
+    $data = $cursor->fetchAll(PDO::FETCH_ASSOC);
 
+    echo json_encode($data);
 }
-catch( PDOException $erreur )
+catch (PDOException $erreur)
 {
-    echo "Probleme d'acces à la BD " . $erreur->getMessage() ;
+    http_response_code(500);
+    echo json_encode(["erreur" => "Problème d'accès à la base de données"]);
 }
-
-?>

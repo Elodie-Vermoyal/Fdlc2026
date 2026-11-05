@@ -10,9 +10,10 @@
       <ion-list>
         <ion-menu-toggle auto-hide="false">
           <ion-item [routerLink]="['/liste-exposants-page']">Liste des exposants</ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle auto-hide="false">
+          <ion-item [routerLink]="['/page-personne',324]">Personne</ion-item>
           <ion-item [routerLink]="['/page-planning-personnel']">Mon planning</ion-item>
+          <ion-item [routerLink]="['/page-liste-personnes']">Liste des personnes</ion-item>
+          <ion-item [routerLink]="['/plans']">Plan du salon</ion-item>
         </ion-menu-toggle>        
       </ion-list>
     </ion-content>

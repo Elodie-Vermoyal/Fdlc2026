@@ -51,8 +51,8 @@ class ImportExposer extends Importation
                     $this->afficheErreurDb( $row["prenom"] . " " . $row["nom"], $erreur ) ;
                 }
 
-                $exposans = explode( "|", $row["exposant"] ) ;
-                for( $i=0 ; $i < count($exposans) ; $i++ )
+                $exposants = explode( "|", $row["exposant"] ) ;
+                for( $i=0 ; $i < count($exposants) ; $i++ )
                 {
                     $samedi_am = 0 ;
                     $samedi_pm = 0 ;
@@ -62,23 +62,23 @@ class ImportExposer extends Importation
                     $idExposant = -1 ;
                     try
                     {
-                        $cursorExposant->bindValue( ":exposant", $exposans[$i], PDO::PARAM_STR ) ;
+                        $cursorExposant->bindValue( ":exposant", $exposants[$i], PDO::PARAM_STR ) ;
                         $cursorExposant->execute() ;
                         $rowsExposant = $cursorExposant->fetchAll( PDO::FETCH_ASSOC ) ;
                         $idExposant = $rowsExposant[0]["id"] ; 
                     }
                     catch( PDOException $erreur )
                     {
-                        $this->afficheErreurDb( $exposans[$i], $erreur ) ;
+                        $this->afficheErreurDb( $exposants[$i], $erreur ) ;
                     }
 
                     $cursorInsert->bindValue( ":idExposant", $idExposant, PDO::PARAM_INT ) ;
                     $cursorInsert->bindValue( ":idPersonne", $idPersonne, PDO::PARAM_INT ) ;
 
-                    if( $row["sam"] == "X" ) $samedi_am = 1 ;
-                    if( $row["spm"] == "X" ) $samedi_pm = 1 ;
-                    if( $row["dam"] == "X" ) $dimanche_am = 1 ;
-                    if( $row["dpm"] == "X" ) $dimanche_pm = 1 ;
+                    if( $row["sam"][0] == "X" ) $samedi_am = 1 ;
+                    if( $row["spm"][0] == "X" ) $samedi_pm = 1 ;
+                    if( $row["dam"][0] == "X" ) $dimanche_am = 1 ;
+                    if( $row["dpm"][0] == "X" ) $dimanche_pm = 1 ;
 
                     $cursorInsert->bindValue( ":samedi_am", $samedi_am, PDO::PARAM_INT ) ;
                     $cursorInsert->bindValue( ":samedi_pm", $samedi_pm, PDO::PARAM_INT ) ;

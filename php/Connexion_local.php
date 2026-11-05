@@ -35,7 +35,7 @@
         public static function getInstance()
         {
             $serveur = 'mysql:host=localhost:3306;';
-            $bdd = 'dbname=fdlc';   		
+            $bdd = 'dbname=fdlc2026';   		
             $user = 'root' ; 
             $mdp = 'root' ;
 
