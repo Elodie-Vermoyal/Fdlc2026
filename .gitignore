@@ -2,8 +2,6 @@
 # http://git-scm.com/docs/gitignore
 php/Connexion.php
 src/index.html
-/src/assets
-
 src/assets/photos
 
 *~
