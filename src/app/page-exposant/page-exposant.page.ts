@@ -5,6 +5,8 @@ import { RouterLink } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { addIcons } from 'ionicons';
+import { locationOutline } from 'ionicons/icons';
 import { 
   IonContent, 
   IonHeader, 
@@ -16,6 +18,8 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  IonButton,
+  IonIcon,
  } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Exposant } from '../../modeles/Exposant';
@@ -37,6 +41,9 @@ import { AjouterEtapeButtonComponent } from '../../components/ajouter-etape-butt
     IonList,
     IonItem,
     IonLabel,
+    IonButton,
+    IonIcon,
+    RouterLink,
     AsyncPipe,
     CommonModule, 
     FormsModule,
@@ -52,6 +59,7 @@ export class PageExposantPage implements OnInit
   constructor( serviceExposant: ExposantService ) 
   { 
     this.serviceExposant = serviceExposant ;
+    addIcons( { locationOutline } ) ;
   }
   
   ngOnInit() 

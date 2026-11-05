@@ -66,6 +66,11 @@ export class PlanHallComponent  implements OnChanges, AfterViewInit, OnDestroy
   // Lieu sur lequel on vient de cliquer (affiché en surbrillance avec un message)
   protected lieuClique = signal<Lieu | null>( null ) ;
 
+  // Bouton Situer : on zoome une seule fois sur le lieu demandé
+  private lieuxCharges: boolean = false ;
+  private dejaSitue: boolean = false ;
+  protected messageSituer = signal("") ;
+
   // Seulement les lieux qui ont une zone dessinée
   protected zones = computed( () => this.lieux().filter( l => l.x1 != null && l.x2 != null ) ) ;
 
@@ -81,7 +86,14 @@ export class PlanHallComponent  implements OnChanges, AfterViewInit, OnDestroy
 
   ngOnChanges()
   {
-    this.serviceLieu.getLieuxDuHall( this.numHall() ).subscribe( lieux => this.lieux.set( lieux ) ) ;
+    this.lieuxCharges = false ;
+    this.dejaSitue = false ;
+    this.serviceLieu.getLieuxDuHall( this.numHall() ).subscribe( lieux =>
+    {
+      this.lieux.set( lieux ) ;
+      this.lieuxCharges = true ;
+      this.situeLieu() ;
+    }) ;
   }
 
   // Recalcule la taille du plan quand le cadre change de taille
@@ -113,6 +125,34 @@ export class PlanHallComponent  implements OnChanges, AfterViewInit, OnDestroy
 
     let largeur = Math.min( cadre.clientWidth, cadre.clientHeight * this.largeur() / this.hauteur(), 1100 ) ;
     this.largeurBase.set( Math.floor( largeur ) ) ;
+    this.situeLieu() ;
+  }
+
+  // Bouton Situer de la page exposant : zoom sur le stand demandé (numLieu)
+  // Il faut que les lieux soient chargés et que le plan soit affiché
+  private situeLieu()
+  {
+    if( this.dejaSitue || !this.lieuxCharges || this.largeurBase() == 0 ) return ;
+
+    // le lieu n'est pas dans ce hall
+    let lieu = this.lieux().find( l => l.num == this.numLieu() ) ;
+    if( !lieu ) return ;
+
+    this.dejaSitue = true ;
+
+    if( lieu.x1 == null )
+    {
+      this.messageSituer.set( this.nomLieu( lieu ) + " n'est pas encore placé sur le plan" ) ;
+      return ;
+    }
+
+    // le centre du stand vient au centre de l'écran
+    this.pointX = ( lieu.x1 + lieu.x2 ) / 2 / this.largeur() ;
+    this.pointY = ( lieu.y1 + lieu.y2 ) / 2 / this.hauteur() ;
+
+    let cadre = this.cadre().nativeElement.getBoundingClientRect() ;
+    this.zoomeSur( 2, cadre.left + cadre.width / 2, cadre.top + cadre.height / 2 ) ;
+    this.onZoom.emit( true ) ;
   }
 
   onClickZone( lieu: Lieu )

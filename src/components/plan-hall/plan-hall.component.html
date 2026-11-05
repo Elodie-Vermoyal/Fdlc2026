@@ -49,3 +49,10 @@
   [duration]="2000"
   (didDismiss)="lieuClique.set(null)">
 </ion-toast>
+
+<ion-toast
+  [isOpen]="messageSituer() != ''"
+  [message]="messageSituer()"
+  [duration]="3000"
+  (didDismiss)="messageSituer.set('')">
+</ion-toast>
