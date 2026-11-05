@@ -82,7 +82,7 @@ export class Etape
     }
 
     // Vrai si l'exposant, la personne, l'evenement ou le lieu est deja dans le planning
-    public static estPlannifie( numLieu: number, idEvenement: number, idExposant: number, idPersonne: number ): boolean
+    public static estPlanifie( numLieu: number, idEvenement: number, idExposant: number, idPersonne: number ): boolean
     {
         return Etape.trouveEtape( numLieu, idEvenement, idExposant, idPersonne ) != undefined ;
     }

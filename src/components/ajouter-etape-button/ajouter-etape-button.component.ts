@@ -52,7 +52,7 @@ export class AjouterEtapeButtonComponent implements OnInit
   // Pour un evenement l'heure est connue, sinon l'utilisateur la choisit
   public    debut = input<string>( "" ) ;
 
-  public    label = input( "Plannifier" ) ;
+  public    label = input( "Planifier" ) ;
   public    onEtapeAjoutee = output<Etape>() ;
 
   protected readonly debutFestival = Etape.debutFestival ;
@@ -63,7 +63,7 @@ export class AjouterEtapeButtonComponent implements OnInit
   protected modalOuvert = signal(false) ;
   protected message = signal("") ;
 
-  // Etape du planning si l'element est deja plannifie
+  // Etape du planning si l'element est deja planifie
   protected etape = signal<Etape | undefined>( undefined ) ;
 
   protected alerteRetirer = signal(false) ;
