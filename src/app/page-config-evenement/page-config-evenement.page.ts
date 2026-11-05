@@ -301,7 +301,8 @@ export class PageConfigEvenementPage
     let lieu = this.lieux().find( l => l.num == num ) ;
     if( !lieu ) return "" ;
     if( lieu.type == "stand" ) return "Stand " + lieu.num ;
-    return lieu.nom ;
+    // les salles theatre n'ont pas toujours de nom dans la base
+    return lieu.nom || lieu.type + " " + lieu.num ;
   }
 
   // ex : Samedi 21 novembre à 14h30
