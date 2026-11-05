@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LivreService } from '../../servcies/livre.service';
+import { LivreService } from '../../services/livre.service';
 import { Livre } from '../../modeles/Livre';
 import { 
   IonList,

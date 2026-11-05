@@ -2,7 +2,7 @@ import { Component, OnInit, viewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {Observable} from "rxjs" ;
-import { ExposantService } from '../../servcies/exopsant.service';
+import { ExposantService } from '../../services/exposant.service';
 import {Exposant} from "../../modeles/Exposant" ;
 import {ListeExposantComponent} from "../../components/liste-exposant/liste-exposant.component"
 import { 

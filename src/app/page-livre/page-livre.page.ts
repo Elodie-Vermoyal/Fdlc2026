@@ -1,7 +1,7 @@
 import { Component, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LivreService } from '../../servcies/livre.service';
+import { LivreService } from '../../services/livre.service';
 import { Livre } from '../../modeles/Livre';
 import { 
   IonContent, 

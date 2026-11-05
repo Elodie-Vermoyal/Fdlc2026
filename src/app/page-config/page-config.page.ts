@@ -19,7 +19,7 @@ import {
   IonModal,
 } from '@ionic/angular';
 
-import { ConfigService } from '../../servcies/config.service';
+import { ConfigService } from '../../services/config.service';
 
 // Page principale de configuration (pas dans le menu) : on se connecte une fois
 // avec le mot de passe puis on accède aux autres pages de config

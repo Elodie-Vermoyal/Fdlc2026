@@ -3,7 +3,7 @@ import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IonList, IonItem } from '@ionic/angular';
-import { PersonneService } from '../../servcies/personne.service';
+import { PersonneService } from '../../services/personne.service';
 import { Personne } from '../../modeles/Personne';
 
 @Component({

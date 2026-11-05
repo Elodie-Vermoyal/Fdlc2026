@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular';
 
 import { Exposant } from '../../modeles/Exposant';
-import { ExposantService } from '../../servcies/exopsant.service';
+import { ExposantService } from '../../services/exposant.service';
 
 @Component({
   selector: 'app-exposant-card',

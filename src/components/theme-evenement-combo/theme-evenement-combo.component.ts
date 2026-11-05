@@ -11,7 +11,7 @@ import {
   IonCardContent,
  } from '@ionic/angular';
 
-import {EvenementService } from '../../servcies/evenement.service';
+import {EvenementService } from '../../services/evenement.service';
 
 @Component({
   selector: 'app-theme-evenement-combo',
