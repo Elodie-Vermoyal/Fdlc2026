@@ -1,4 +1,13 @@
 
+// les boutons passent a la ligne si l'ecran est trop petit
+:host
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
 // taille fixe sinon le contenu de la fenetre ne s'affiche pas
 ion-modal.choix-heure
 {

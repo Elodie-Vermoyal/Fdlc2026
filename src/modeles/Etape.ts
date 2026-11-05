@@ -84,12 +84,25 @@ export class Etape
     // Vrai si l'exposant, la personne, l'evenement ou le lieu est deja dans le planning
     public static estPlannifie( numLieu: number, idEvenement: number, idExposant: number, idPersonne: number ): boolean
     {
+        return Etape.trouveEtape( numLieu, idEvenement, idExposant, idPersonne ) != undefined ;
+    }
+
+    // Etape du planning pour cet exposant, cette personne, cet evenement ou ce lieu
+    public static trouveEtape( numLieu: number, idEvenement: number, idExposant: number, idPersonne: number ): Etape | undefined
+    {
         let etape = new Etape( -1, "", "", numLieu, idEvenement, idExposant, idPersonne ) ;
-        for( let e of Etape.lesEtapes )
-        {
-            if( e.estLeMeme( etape ) ) return true ;
-        }
-        return false ;
+        return Etape.lesEtapes.find( e => e.estLeMeme( etape ) ) ;
+    }
+
+    // Change l'heure d'une etape, le planning reste trie par heure
+    public static changeHeure( id: number, debut: string )
+    {
+        let etape = Etape.lesEtapes.find( e => e.id == id ) ;
+        if( !etape ) return ;
+
+        etape.debut = ( debut.replace( " ", "T" ) + ":00" ).substring( 0, 19 ) ;
+        Etape.lesEtapes.sort( (a, b) => a.debut.localeCompare( b.debut ) ) ;
+        Etape.sauve() ;
     }
 
     // evenement, exposant, personne ou lieu suivant l'id renseigne

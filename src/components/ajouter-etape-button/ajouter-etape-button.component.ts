@@ -1,7 +1,8 @@
 import { Component, OnInit, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { calendarOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import { calendarOutline, createOutline, eyeOutline, trashOutline } from 'ionicons/icons';
 
 import {
   IonButton,
@@ -14,6 +15,7 @@ import {
   IonContent,
   IonDatetime,
   IonToast,
+  IonAlert,
  } from '@ionic/angular';
 
 import { Etape } from '../../modeles/Etape';
@@ -33,7 +35,9 @@ import { Etape } from '../../modeles/Etape';
     IonContent,
     IonDatetime,
     IonToast,
-    FormsModule
+    IonAlert,
+    FormsModule,
+    RouterLink
   ],
 })
 export class AjouterEtapeButtonComponent implements OnInit
@@ -57,12 +61,20 @@ export class AjouterEtapeButtonComponent implements OnInit
   protected heureChoisie: string = "2026-11-21T10:00:00" ;
 
   protected modalOuvert = signal(false) ;
-  protected dejaPlannifie = signal(false) ;
   protected message = signal("") ;
+
+  // Etape du planning si l'element est deja plannifie
+  protected etape = signal<Etape | undefined>( undefined ) ;
+
+  protected alerteRetirer = signal(false) ;
+  protected readonly boutonsRetirer = [
+    { text: "Annuler", role: "cancel" },
+    { text: "Retirer", role: "destructive", handler: () => this.retire() }
+  ] ;
 
   constructor()
   {
-    addIcons( { calendarOutline, checkmarkCircleOutline } ) ;
+    addIcons( { calendarOutline, createOutline, eyeOutline, trashOutline } ) ;
   }
 
   ngOnInit()
@@ -82,11 +94,40 @@ export class AjouterEtapeButtonComponent implements OnInit
     }
   }
 
-  // Bouton Ajouter de la fenetre
+  // Bouton Modifier le rappel : on repart de l'heure deja choisie
+  onModifier()
+  {
+    let etape = this.etape() ;
+    if( etape ) this.heureChoisie = etape.debut ;
+    this.modalOuvert.set( true ) ;
+  }
+
+  // Bouton Ajouter ou Modifier de la fenetre
   onValideHeure()
   {
     this.modalOuvert.set( false ) ;
-    this.ajoute( this.heureChoisie ) ;
+
+    let etape = this.etape() ;
+    if( etape )
+    {
+      Etape.changeHeure( etape.id, this.heureChoisie ) ;
+      this.message.set( "Rappel déplacé : " + etape.getJour().toLowerCase() + " à " + etape.getHeure() ) ;
+      this.majEtat() ;
+    }
+    else
+    {
+      this.ajoute( this.heureChoisie ) ;
+    }
+  }
+
+  private retire()
+  {
+    let etape = this.etape() ;
+    if( !etape ) return ;
+
+    Etape.supprimeEtape( etape.id ) ;
+    this.message.set( "Retiré de votre planning" ) ;
+    this.majEtat() ;
   }
 
   private ajoute( debut: string )
@@ -109,6 +150,6 @@ export class AjouterEtapeButtonComponent implements OnInit
 
   private majEtat()
   {
-    this.dejaPlannifie.set( Etape.estPlannifie( this.numLieu(), this.idEvenement(), this.idExposant(), this.idPersonne() ) ) ;
+    this.etape.set( Etape.trouveEtape( this.numLieu(), this.idEvenement(), this.idExposant(), this.idPersonne() ) ) ;
   }
 }
