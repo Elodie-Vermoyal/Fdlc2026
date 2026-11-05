@@ -7,6 +7,9 @@ require_once "mot-de-passe.php" ;
 // le mot de passe est envoye en POST pour ne pas apparaitre dans l'url
 $donnees = json_decode( file_get_contents( "php://input" ), true ) ;
 
-echo json_encode( [ "ok" => motDePasseOk( $donnees["mdp"] ?? "" ) ] ) ;
+$ok = motDePasseOk( $donnees["mdp"] ?? "" ) ;
+
+// bloque = trop d'essais, l'appli affiche un message
+echo json_encode( [ "ok" => $ok, "bloque" => !$ok && estBloque() ] ) ;
 
 ?>

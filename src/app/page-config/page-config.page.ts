@@ -52,7 +52,7 @@ export class PageConfigPage
   protected serviceConfig: ConfigService ;
 
   protected mdp: string = "" ;
-  protected erreurMdp = signal(false) ;
+  protected erreurMdp = signal("") ;
 
   // Changement du mot de passe
   protected modalMdp = signal(false) ;
@@ -72,7 +72,10 @@ export class PageConfigPage
   {
     this.serviceConfig.verifieMotDePasse( this.mdp ).subscribe( reponse =>
     {
-      this.erreurMdp.set( !reponse.ok ) ;
+      if( reponse.ok ) this.erreurMdp.set( "" ) ;
+      else if( reponse.bloque ) this.erreurMdp.set( "Trop d'essais, réessayez dans 5 minutes" ) ;
+      else this.erreurMdp.set( "Mot de passe incorrect" ) ;
+
       if( reponse.ok ) this.serviceConfig.connexion( this.mdp ) ;
       this.mdp = "" ;
     }) ;

@@ -15,9 +15,13 @@
       <ion-item>
         <ion-input type="password" label="Mot de passe :" [(ngModel)]="mdp" (keyup.enter)="onConnexion()"></ion-input>
       </ion-item>
-      @if( erreurMdp() )
+      @if( erreurMdp() != "" )
       {
-        <ion-note color="danger">Mot de passe incorrect</ion-note>
+        <ion-note color="danger">{{erreurMdp()}}</ion-note>
+      }
+      @else if( serviceConfig.deconnecteParInactivite() )
+      {
+        <ion-note color="medium">Vous avez été déconnecté après 15 minutes d'inactivité</ion-note>
       }
       <ion-button expand="block" (click)="onConnexion()">Valider</ion-button>
     </ion-list>
