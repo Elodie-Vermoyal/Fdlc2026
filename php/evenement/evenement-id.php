@@ -10,7 +10,7 @@ try
     {
         $id = $_GET["id"] ;
 
-        $sql = "select id, typeevenement, titre, idAnimateur, numLieu, debut, fin from evenement WHERE id = ?" ;
+        $sql = "select id, typeevenement, titre, idAnimateur, numLieu, debut, fin from " . Connexion::$tables["evenement"] . " WHERE id = ?" ;
 
         $cursor = $bd->prepare( $sql ) ;
         $cursor->bindValue( 1, $id, PDO::PARAM_INT ) ;
