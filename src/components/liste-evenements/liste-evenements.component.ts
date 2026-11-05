@@ -59,8 +59,8 @@ export class ListeEvenementsComponent implements OnInit, OnChanges {
     html = html.replace("$id", evenement.id ? evenement.id.toString() : "");
     html = html.replace("$titre", evenement.titre ?? "");
     html = html.replace("$debut", evenement.debut ? evenement.debut.toString() : "");
-    html = html.replace("$nomLieu", evenement.nomLieu ?? "Lieu non défini");
-    html = html.replace("$nomAnimateur", evenement.nomAnimateur ?? "");
+    html = html.replace("$nomLieu", evenement.numLieu ? evenement.numLieu.toString() : "Lieu non défini");
+    html = html.replace("$nomAnimateur", evenement.idAnimateur ? evenement.idAnimateur.toString() :"");
     return html;
   }
 }
