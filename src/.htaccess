@@ -1,2 +1,11 @@
 
 Options -Indexes
+
+# Les adresses de l'appli (/config, /plans/2...) ne sont pas des fichiers,
+# on renvoie vers index.html et c'est Angular qui affiche la bonne page
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.html [L]
+</IfModule>

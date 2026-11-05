@@ -38,8 +38,8 @@
                 "output": "php"
               },
               {
-                "glob": "**/*",
-                "input": ".htaccess",
+                "glob": ".htaccess",
+                "input": "src",
                 "output": "/"
               }
             ],
