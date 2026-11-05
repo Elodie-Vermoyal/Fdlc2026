@@ -25,8 +25,10 @@
             "specialite" => "specialite",
             "typelieu" => "typelieu",
             "typeevenement" => "typeevenement",
+            "genre" => "genre",
             "PersonneExposantExposer" => "PersonneExposantExposer",
-            "PersonneExposantExposerLieu" => "PersonneExposantExposerLieu"
+            "PersonneExposantExposerLieu" => "PersonneExposantExposerLieu",
+            "LivreEditeurPersonneExposant" => "LivreEditeurPersonneExposant"
          ) ;
 
         /**
@@ -34,19 +36,18 @@
         **/
         public static function getInstance()
         {
-            $serveur = 'mysql:host=localhost:3306;';
-            $bdd = 'dbname=fdlc2026';   		
+            $serveur = 'mysql:host=localhost;port=3306;';
+            $bdd = 'dbname=fdlc;charset=utf8mb4_unicode_ci';   		
             $user = 'root' ; 
-            $mdp = 'root' ;
+            $mdp = '' ;
 
             if(!self::$connexion){
                 try {
-
                     self::$connexion = new PDO($serveur.$bdd, $user, $mdp); 
-                    self::$connexion->query("SET CHARACTER SET utf-8");
+                    self::$connexion->query("SET CHARACTER SET utf8");
                 } catch (PDOException $e) {
                         echo " Error connexion: " . $serveur . " " . $bdd . " " . $e->getMessage() ;
-                        throw new Exception("Erreur à  la connexion \n" . $e->getMessage());
+                        throw new Exception("Erreur à la connexion \n" . $e->getMessage());
                 }
             }
             return self::$connexion;

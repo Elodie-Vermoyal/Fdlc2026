@@ -1,0 +1,22 @@
+<ion-input 
+  [label]="label()" 
+  placeholder="Taper le nom de l'exposant" 
+  [(ngModel)]="nom" 
+  (ionInput)="onNomChanged($event)"
+  (click)="onInputClick($event)">
+</ion-input>
+@if(showList())
+{
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        @for( exposant of listeExposants | async; track exposant.id )
+        {
+          <ion-item (click)="onClickExposantSelected( exposant.nom )">
+            {{exposant.nom}}
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+}

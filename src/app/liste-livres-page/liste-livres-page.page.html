@@ -1,0 +1,69 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Liste des livres</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>    
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>    
+  </ion-toolbar>
+
+  <ion-accordion-group id="liste-livres-page-accordion">
+    <ion-accordion value="rechercher">
+      <ion-item slot="header" color="light">
+        <ion-label>Rechercher</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-list>
+          <ion-item>
+            <app-titre-livre-combo
+              label="Titre:"
+              (onTitreSelected)="onTitreSelected($event)">
+            </app-titre-livre-combo>
+          </ion-item>
+          <ion-item>
+            <app-nom-personne-combo 
+              label="Auteur:"
+              (onPersonneSelected)="onAuteurSelected($event)">
+            </app-nom-personne-combo>
+          </ion-item>
+          <ion-item>
+            <app-genre-combo
+              label="Genre:"
+              (onGenreSelected)="onGenreSelected($event)">
+            </app-genre-combo>
+          </ion-item>
+          <ion-item>
+            <app-nom-exposant-combo
+              label="Exposant:"
+              (onExposantSelected)="onExposantSelected($event)">
+            </app-nom-exposant-combo>
+          </ion-item>
+          <ion-item lines="none" class="boutons-actions">
+            <ion-button color="primary" (click)="onFiltrer()">Filtrer</ion-button>
+            <ion-button fill="outline" color="medium" (click)="onReinitialiser()">Réinitialiser</ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>  
+  </ion-accordion-group>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Liste des livres</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-liste-livres 
+    id="listeLivres" 
+    childHtml="<strong>$titre</strong> ($genre)<br><small>Auteur: $prenom $nom | Éditeur: $editeur</small>"
+    lienPage="/page-livre"
+    [titreLivre]="titre"
+    [nomAuteur]="nomAuteur"
+    [genre]="genre"
+    [nomExposant]="nomExposant">
+  </app-liste-livres>
+</ion-content>

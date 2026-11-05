@@ -1,0 +1,25 @@
+<ion-input 
+  [label]="label()" 
+  placeholder="Sélectionner un genre" 
+  [(ngModel)]="genre" 
+  (ionInput)="onGenreChanged($event)"
+  (click)="onInputClick($event)">
+</ion-input>
+@if(showList())
+{
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item (click)="onClickGenreSelected('')">
+          <em>-- Tous les genres --</em>
+        </ion-item>
+        @for( g of listeGenres | async; track g.genre )
+        {
+          <ion-item (click)="onClickGenreSelected( g.genre )">
+            {{g.genre}}
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+}
