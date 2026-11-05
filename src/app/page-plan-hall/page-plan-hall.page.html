@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Plan du hall {{ numHall }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Plan : les zones apparaissent seulement pour les lieux qui ont des coordonnées -->
+  <div class="plan">
+    @for( lieu of listeLieux | async; track lieu.num )
+    {
+      @if( lieu.x1 != null && lieu.y1 != null && lieu.x2 != null && lieu.y2 != null )
+      {
+        <div class="zone"
+             [class.zone-selectionnee]="lieu.num === numLieu"
+             [style.left.px]="lieu.x1"
+             [style.top.px]="lieu.y1"
+             [style.width.px]="lieu.x2 - lieu.x1"
+             [style.height.px]="lieu.y2 - lieu.y1"
+             (click)="onClickLieu( lieu.num )">
+          @if( lieu.num === numLieu ) { 📍 }
+        </div>
+      }
+    }
+  </div>
+
+  <h2>Lieux</h2>
+  <ion-list>
+    @for( lieu of listeLieux | async; track lieu.num )
+    {
+      <ion-item (click)="onClickLieu( lieu.num )">
+        <ion-label>{{ lieu.nom }}@if( lieu.num === numLieu ) { 📍 }</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,18 @@
+.plan {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  border: 1px solid var(--ion-color-medium);
+}
+
+.zone {
+  position: absolute;
+  border: 1px solid var(--ion-color-primary);
+  background: rgba(56, 128, 255, 0.2);
+  cursor: pointer;
+}
+
+.zone-selectionnee {
+  background: rgba(235, 68, 90, 0.4);
+  border-color: var(--ion-color-danger);
+}
