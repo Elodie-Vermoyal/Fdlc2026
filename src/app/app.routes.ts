@@ -42,6 +42,10 @@ export const routes: Routes = [
     loadComponent: () => import('./page-config-plan/page-config-plan.page').then( m => m.PageConfigPlanPage)
   },
   {
+    path: 'config-evenement',
+    loadComponent: () => import('./page-config-evenement/page-config-evenement.page').then( m => m.PageConfigEvenementPage)
+  },
+  {
     path: 'page-planning-personnel',
     loadComponent: () => import('./page-planning-personnel/page-planning-personnel.page').then( m => m.PagePlanningPersonnelPage)
   },

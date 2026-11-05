@@ -16,4 +16,9 @@ export class LivreService {
     const query = params.toString();
     return this.http.get<Livre[]>("php/livre/tous-les-livres.php" + (query ? "?" + query : ""));
   }
+
+  // Titre et auteurs de tous les livres
+  getTitresLivres(): Observable<Livre[]> {
+    return this.http.get<Livre[]>("php/livre/titres-livres.php");
+  }
 }
