@@ -5,6 +5,8 @@ php/Connexion.php
 php/Connexion.php
 src/index.html
 
+src/assets/photos
+
 *~
 *.sw[mnpcod]
 .tmp
