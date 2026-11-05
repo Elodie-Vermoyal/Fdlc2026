@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   IonContent,
   IonHeader,
@@ -7,9 +8,7 @@ import {
   IonToolbar,
   IonButtons,
   IonBackButton,
-  IonList,
   IonItem,
-  IonInput,
   IonButton,
   IonSegment,
   IonSegmentButton,
@@ -18,14 +17,14 @@ import {
   IonSelectOption,
   IonNote,
   IonToast,
-  IonModal,
   IonAlert,
 } from '@ionic/angular';
 
 import { LieuService } from '../../servcies/lieu.service';
+import { ConfigService } from '../../servcies/config.service';
 import { Lieu } from '../../modeles/Lieu';
 
-// Page "cachée" (pas dans le menu) pour dessiner les zones des stands sur les plans.
+// Page de config (accessible depuis /config) pour dessiner les zones des stands sur les plans.
 // Les coordonnées sont enregistrées dans x1, y1, x2, y2 de la table lieu,
 // en pixels de l'image du hall.
 @Component({
@@ -39,9 +38,7 @@ import { Lieu } from '../../modeles/Lieu';
     IonToolbar,
     IonButtons,
     IonBackButton,
-    IonList,
     IonItem,
-    IonInput,
     IonButton,
     IonSegment,
     IonSegmentButton,
@@ -50,7 +47,6 @@ import { Lieu } from '../../modeles/Lieu';
     IonSelectOption,
     IonNote,
     IonToast,
-    IonModal,
     IonAlert,
     FormsModule
   ]
@@ -58,11 +54,8 @@ import { Lieu } from '../../modeles/Lieu';
 export class PageConfigPlanPage
 {
   protected serviceLieu: LieuService ;
-
-  // Connexion
-  protected mdp: string = "" ;
-  protected connecte = signal(false) ;
-  protected erreurMdp = signal(false) ;
+  protected serviceConfig: ConfigService ;
+  protected router: Router ;
 
   protected readonly halls = [1, 2, 3, 4, 5] ;
   protected hall = signal(1) ;
@@ -87,55 +80,20 @@ export class PageConfigPlanPage
     { text: "Supprimer", role: "destructive", handler: () => this.onSupprimer() }
   ] ;
 
-  // Changement du mot de passe
-  protected modalMdp = signal(false) ;
-  protected ancienMdp: string = "" ;
-  protected nouveauMdp: string = "" ;
-  protected confirmationMdp: string = "" ;
-  protected erreurChangement = signal("") ;
-
   protected nbZones = computed( () => this.lieux().filter( l => l.x1 != null ).length ) ;
 
-  constructor( serviceLieu: LieuService )
+  constructor( serviceLieu: LieuService, serviceConfig: ConfigService, router: Router )
   {
     this.serviceLieu = serviceLieu ;
+    this.serviceConfig = serviceConfig ;
+    this.router = router ;
   }
 
-  onConnexion()
+  // Sans mot de passe on retourne sur la page principale de config
+  ionViewWillEnter()
   {
-    this.serviceLieu.verifieMotDePasse( this.mdp ).subscribe( reponse =>
-    {
-      this.connecte.set( reponse.ok ) ;
-      this.erreurMdp.set( !reponse.ok ) ;
-      if( reponse.ok ) this.chargeHall( this.hall() ) ;
-    }) ;
-  }
-
-  ouvreChangementMdp()
-  {
-    this.ancienMdp = this.nouveauMdp = this.confirmationMdp = "" ;
-    this.erreurChangement.set( "" ) ;
-    this.modalMdp.set( true ) ;
-  }
-
-  onChangerMdp()
-  {
-    if( this.nouveauMdp != this.confirmationMdp )
-    {
-      this.erreurChangement.set( "Les deux nouveaux mots de passe sont différents" ) ;
-      return ;
-    }
-
-    this.serviceLieu.changeMotDePasse( this.ancienMdp, this.nouveauMdp ).subscribe( {
-      next: () =>
-      {
-        // le nouveau mot de passe sert pour les prochains enregistrements
-        this.mdp = this.nouveauMdp ;
-        this.modalMdp.set( false ) ;
-        this.message.set( "Mot de passe modifié" ) ;
-      },
-      error: erreur => this.erreurChangement.set( erreur.error?.erreur ?? "Erreur lors du changement" )
-    }) ;
+    if( !this.serviceConfig.connecte() ) this.router.navigateByUrl( "/config" ) ;
+    else this.chargeHall( this.hall() ) ;
   }
 
   chargeHall( hall: number )
@@ -234,7 +192,7 @@ export class PageConfigPlanPage
 
   private enregistre( lieu: Lieu, message: string )
   {
-    this.serviceLieu.majZoneLieu( this.mdp, lieu ).subscribe( {
+    this.serviceLieu.majZoneLieu( this.serviceConfig.mdp, lieu ).subscribe( {
       next: () =>
       {
         this.zone.set( null ) ;
@@ -244,7 +202,11 @@ export class PageConfigPlanPage
       error: erreur =>
       {
         // 403 : mot de passe refusé par le serveur
-        if( erreur.status == 403 ) this.connecte.set( false ) ;
+        if( erreur.status == 403 )
+        {
+          this.serviceConfig.deconnexion() ;
+          this.router.navigateByUrl( "/config" ) ;
+        }
         this.message.set( "Erreur lors de l'enregistrement" ) ;
         this.chargeHall( this.hall() ) ;
       }

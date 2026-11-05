@@ -1,7 +1,7 @@
 <?php
 
 require_once "../Connexion.php" ;
-require_once "mot-de-passe-plan.php" ;
+require_once "../config/mot-de-passe.php" ;
 
 header( "Content-Type: application/json; charset=utf-8" ) ;
 

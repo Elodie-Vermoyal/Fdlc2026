@@ -2,7 +2,7 @@
 
 header( "Content-Type: application/json; charset=utf-8" ) ;
 
-require_once "mot-de-passe-plan.php" ;
+require_once "mot-de-passe.php" ;
 
 $donnees = json_decode( file_get_contents( "php://input" ), true ) ;
 

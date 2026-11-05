@@ -44,18 +44,6 @@ export class LieuService
         return this.http.get<Lieu[]>( "php/lieu/lieux-hall.php?hall=" + hall ) ;
     }
 
-    // Vérifie le mot de passe de la page de configuration des plans
-    verifieMotDePasse( mdp: string ): Observable<{ ok: boolean }>
-    {
-        return this.http.post<{ ok: boolean }>( "php/lieu/verif-mot-de-passe.php", { mdp: mdp } ) ;
-    }
-
-    // Change le mot de passe de la page de configuration
-    changeMotDePasse( ancien: string, nouveau: string ): Observable<any>
-    {
-        return this.http.post( "php/lieu/change-mot-de-passe.php", { ancien: ancien, nouveau: nouveau } ) ;
-    }
-
     // Enregistre la zone d'un lieu sur le plan, x1 = null pour la supprimer
     majZoneLieu( mdp: string, lieu: Lieu ): Observable<any>
     {
