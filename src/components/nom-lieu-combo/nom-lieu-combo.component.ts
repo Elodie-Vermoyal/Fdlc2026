@@ -3,7 +3,7 @@ import { AsyncPipe } from '@angular/common';
 import {Observable} from "rxjs" ;
 import { FormsModule } from '@angular/forms';
 
-import {LieuService } from '../../servcies/lieu.service';
+import {LieuService } from '../../services/lieu.service';
 import {Lieu} from "../../modeles/Lieu" ;
 
 import { 

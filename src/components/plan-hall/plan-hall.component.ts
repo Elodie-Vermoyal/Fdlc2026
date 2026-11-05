@@ -9,7 +9,7 @@ import {
   IonToast,
  } from '@ionic/angular';
 
-import { LieuService } from '../../servcies/lieu.service';
+import { LieuService } from '../../services/lieu.service';
 import { Lieu } from '../../modeles/Lieu';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {Observable} from "rxjs" ;
-import { ExposantService } from '../../servcies/exopsant.service';
+import { ExposantService } from '../../services/exposant.service';
 import {Exposant} from "../../modeles/Exposant" ;
 import { 
   IonList,

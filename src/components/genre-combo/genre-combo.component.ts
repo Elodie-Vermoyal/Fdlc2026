@@ -2,7 +2,7 @@ import { Component, OnInit, input, output, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { LivreService } from '../../servcies/livre.service';
+import { LivreService } from '../../services/livre.service';
 import { 
   IonInput,
   IonList,

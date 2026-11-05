@@ -20,8 +20,8 @@ import {
   IonAlert,
 } from '@ionic/angular';
 
-import { LieuService } from '../../servcies/lieu.service';
-import { ConfigService } from '../../servcies/config.service';
+import { LieuService } from '../../services/lieu.service';
+import { ConfigService } from '../../services/config.service';
 import { Lieu } from '../../modeles/Lieu';
 
 // Page de config (accessible depuis /config) pour dessiner les zones des stands sur les plans.

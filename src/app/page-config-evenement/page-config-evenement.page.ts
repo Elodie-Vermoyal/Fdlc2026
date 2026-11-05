@@ -30,11 +30,11 @@ import {
 import { addIcons } from 'ionicons';
 import { closeCircle } from 'ionicons/icons';
 
-import { ConfigService } from '../../servcies/config.service';
-import { EvenementService } from '../../servcies/evenement.service';
-import { LieuService } from '../../servcies/lieu.service';
-import { LivreService } from '../../servcies/livre.service';
-import { PersonneService } from '../../servcies/personne.service';
+import { ConfigService } from '../../services/config.service';
+import { EvenementService } from '../../services/evenement.service';
+import { LieuService } from '../../services/lieu.service';
+import { LivreService } from '../../services/livre.service';
+import { PersonneService } from '../../services/personne.service';
 import { Evenement } from '../../modeles/Evenements';
 import { Etape } from '../../modeles/Etape';
 import { Lieu } from '../../modeles/Lieu';

@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Personne } from '../../modeles/Personne';
-import { PersonneService } from '../../servcies/personne.service';
+import { PersonneService } from '../../services/personne.service';
 
 import {IonContent, IonHeader, IonTitle, IonToolbar, IonImg} from '@ionic/angular';
 

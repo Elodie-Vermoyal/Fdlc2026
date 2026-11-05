@@ -19,7 +19,7 @@ import {
  } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Exposant } from '../../modeles/Exposant';
-import { ExposantService } from '../../servcies/exopsant.service';
+import { ExposantService } from '../../services/exposant.service';
 import { AjouterEtapeButtonComponent } from '../../components/ajouter-etape-button/ajouter-etape-button.component';
 
 @Component({

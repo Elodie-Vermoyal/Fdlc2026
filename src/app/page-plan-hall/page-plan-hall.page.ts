@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { LieuService } from '../../servcies/lieu.service';
+import { LieuService } from '../../services/lieu.service';
 import { Lieu } from '../../modeles/Lieu';
 
 import {

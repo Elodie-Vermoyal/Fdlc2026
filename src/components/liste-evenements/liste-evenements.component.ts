@@ -2,7 +2,7 @@
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { EvenementService } from '../../servcies/evenement.service';
+import { EvenementService } from '../../services/evenement.service';
 import { Evenement } from '../../modeles/Evenement';
 import { 
   IonList,
