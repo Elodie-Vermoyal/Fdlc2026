@@ -26,7 +26,7 @@ export const routes: Routes = [
     loadComponent: () => import('./page-exposant/page-exposant.page').then( m => m.PageExposantPage)
   },
   {
-    // Affiche les détails de la personne correspondant à l'identifiant
+  
     path: 'page-personne/:id',
     loadComponent: () => import('./page-personne/page-personne.page')
       .then(m => m.PagePersonnePage)
@@ -39,5 +39,10 @@ export const routes: Routes = [
   {
     path: 'page-liste-personnes',
     loadComponent: () => import('./page-liste-personnes/page-liste-personnes.page').then( m => m.PageListePersonnesPage)
+  }
+  ,
+  {
+    path: 'page-liste-evenements',
+    loadComponent: () => import('./page-liste-evenements/page-liste-evenements.page').then( m => m.PageListeEvenementsPage)  
   }
 ];
