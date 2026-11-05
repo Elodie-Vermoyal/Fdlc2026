@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Liste des personnes</ion-title>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/"></ion-back-button></ion-buttons>
+    <ion-buttons slot="end"><ion-menu-button></ion-menu-button></ion-buttons>
+  </ion-toolbar>
+  <ion-accordion-group>
+    <ion-accordion value="rechercher">
+      <ion-item slot="header" color="light"><ion-label>Rechercher / filtrer</ion-label></ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-list>
+          <ion-item>
+            <ion-input label="Nom (ou partie du nom)" labelPlacement="stacked" [(ngModel)]="saisieNom" (keyup.enter)="onFiltrer()"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onFiltrer()">Filtrer</ion-button>
+            <ion-button fill="outline" (click)="reinitialiser()">Réinitialiser</ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <app-liste-personnes childHtml="<strong>$civilite $prenom $nom</strong> — $specialite" lienPage="/page-personne" [nom]="nom"></app-liste-personnes>
+</ion-content>
