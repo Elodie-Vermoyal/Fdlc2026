@@ -1,0 +1,20 @@
+
+.connexion, .menu, .boutons
+{
+    max-width: 500px;
+    margin: auto;
+}
+
+.boutons
+{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+// fenetre de changement du mot de passe
+ion-modal.changement-mdp
+{
+    --width: min(400px, 100%);
+    --height: min(420px, 100%);
+}

@@ -1,0 +1,222 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/config"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configuration des événements</ion-title>
+    @if( !evenement() )
+    {
+      <ion-buttons slot="end">
+        <ion-button fill="solid" color="primary" (click)="onNouveau()">Nouvel événement</ion-button>
+      </ion-buttons>
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if( evenement(); as e )
+  {
+    <!-- Formulaire d'un evenement -->
+    <ion-list class="formulaire">
+      <ion-item>
+        <ion-input label="Titre *" labelPlacement="stacked" [(ngModel)]="e.titre" maxlength="80"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Type" labelPlacement="stacked" interface="popover" placeholder="Choisir un type" [(ngModel)]="e.typeevenement">
+          @for( type of types(); track type )
+          {
+            <ion-select-option [value]="type">{{type}}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Sous-titre" labelPlacement="stacked" [(ngModel)]="e.stitre" maxlength="80"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Public" labelPlacement="stacked" placeholder="ex : à partir de 8 ans" [(ngModel)]="e.public" maxlength="80"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Début *</ion-label>
+        <ion-datetime-button datetime="debut" slot="end"></ion-datetime-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Fin</ion-label>
+        <ion-datetime-button datetime="fin" slot="end"></ion-datetime-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-select label="Lieu *" labelPlacement="stacked" interface="popover" placeholder="Choisir un lieu" [(ngModel)]="e.numLieu">
+          @for( lieu of lieux(); track lieu.num )
+          {
+            <ion-select-option [value]="lieu.num">{{ nomLieu( lieu.num ) }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item button [detail]="true" (click)="ouvreChoix( 'animateur' )">
+        <ion-label>
+          <p>Animateur</p>
+          <h3>{{ nomAnimateur( e.idAnimateur ) }}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item button [detail]="true" (click)="ouvreChoix( 'livres' )">
+        <ion-label>
+          <p>Livres présentés</p>
+          <h3>{{ idLivres().length == 0 ? "Aucun livre" : idLivres().length + " livre(s)" }}</h3>
+        </ion-label>
+      </ion-item>
+      @if( idLivres().length > 0 )
+      {
+        <div class="livres-choisis">
+          @for( id of idLivres(); track id )
+          {
+            <ion-chip (click)="retireLivre( id )">
+              <ion-label>{{ titreLivre( id ) }}</ion-label>
+              <ion-icon name="close-circle"></ion-icon>
+            </ion-chip>
+          }
+        </div>
+      }
+
+      <ion-item>
+        <ion-textarea label="Commentaire" labelPlacement="stacked" [autoGrow]="true" [(ngModel)]="e.commentaire" maxlength="1000"></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    @if( erreur() != "" )
+    {
+      <ion-note color="danger" class="formulaire">{{erreur()}}</ion-note>
+    }
+
+    <div class="formulaire boutons">
+      <ion-button fill="clear" color="medium" (click)="onAnnuler()">Annuler</ion-button>
+      @if( e.id > 0 )
+      {
+        <ion-button fill="outline" color="danger" (click)="alerteSupprimer.set(true)">Supprimer</ion-button>
+      }
+      <ion-button (click)="onEnregistrer()">Enregistrer</ion-button>
+    </div>
+
+    <!-- les ion-datetime restent dans la page pour les ion-datetime-button -->
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="debut" presentation="date-time" locale="fr-FR" hourCycle="h23" [min]="debutFestival" [max]="finFestival"
+                      [(ngModel)]="e.debut" [minuteValues]="[0, 15, 30, 45]"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="fin" presentation="date-time" locale="fr-FR" hourCycle="h23" [min]="debutFestival" [max]="finFestival"
+                      [(ngModel)]="e.fin" [minuteValues]="[0, 15, 30, 45]"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Choix des livres -->
+    <ion-modal [isOpen]="modalLivres()" (didDismiss)="modalLivres.set(false)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Livres présentés ({{idLivres().length}})</ion-title>
+            <ion-buttons slot="end">
+              <ion-button [strong]="true" (click)="modalLivres.set(false)">OK</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+          <ion-toolbar>
+            <ion-searchbar placeholder="Titre ou auteur" [debounce]="200" (ionInput)="recherche.set( $any($event).detail.value ?? '' )"></ion-searchbar>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            @for( livre of livresTrouves(); track livre.id )
+            {
+              <ion-item>
+                <ion-checkbox justify="start" labelPlacement="end" [checked]="estChoisi( livre )"
+                              (ionChange)="onCocheLivre( livre, $event.detail.checked )">
+                  <div class="titre-livre">{{livre.titre}}</div>
+                  <div class="auteur">{{livre.nom}}</div>
+                </ion-checkbox>
+              </ion-item>
+            }
+            @empty
+            {
+              <ion-item lines="none">Aucun livre trouvé</ion-item>
+            }
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Choix de l'animateur -->
+    <ion-modal [isOpen]="modalAnimateur()" (didDismiss)="modalAnimateur.set(false)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="modalAnimateur.set(false)">Annuler</ion-button>
+            </ion-buttons>
+            <ion-title>Animateur</ion-title>
+          </ion-toolbar>
+          <ion-toolbar>
+            <ion-searchbar placeholder="Nom de la personne" [debounce]="200" (ionInput)="recherche.set( $any($event).detail.value ?? '' )"></ion-searchbar>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>
+            <ion-item button [detail]="false" (click)="onChoisirAnimateur( -1 )">
+              <ion-label color="medium">Aucun animateur</ion-label>
+            </ion-item>
+            @for( personne of personnesTrouvees(); track personne.id )
+            {
+              <ion-item button [detail]="false" (click)="onChoisirAnimateur( personne.id )">
+                <ion-label>{{ nomPersonne( personne ) }}</ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  }
+  @else
+  {
+    <!-- Liste des evenements -->
+    <ion-list class="liste">
+      @for( ev of evenements(); track ev.id )
+      {
+        <ion-item button (click)="onModifier( ev )">
+          <ion-label>
+            <h2>{{ev.titre}}</h2>
+            <p>{{ dateAffichee( ev.debut ) }} | {{ nomLieu( ev.numLieu ) }}</p>
+            @if( ev.typeevenement )
+            {
+              <p>{{ev.typeevenement}}</p>
+            }
+          </ion-label>
+        </ion-item>
+      }
+      @empty
+      {
+        <ion-item lines="none">
+          <ion-label color="medium">Aucun événement pour l'instant</ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
+  <ion-alert
+    [isOpen]="alerteSupprimer()"
+    (didDismiss)="alerteSupprimer.set(false)"
+    header="Supprimer l'événement ?"
+    [message]="evenement()?.titre + ' sera supprimé avec ses livres présentés'"
+    [buttons]="boutonsSupprimer">
+  </ion-alert>
+
+  <ion-toast
+    [isOpen]="message() !== ''"
+    [message]="message()"
+    [duration]="2000"
+    (didDismiss)="message.set('')">
+  </ion-toast>
+</ion-content>
