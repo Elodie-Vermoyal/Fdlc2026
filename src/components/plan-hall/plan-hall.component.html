@@ -12,7 +12,7 @@
      (touchmove)="onTouchMove($event)"
      (touchend)="onTouchEnd($event)">
   <div class="plan" #plan [style.width]="largeurBase() > 0 ? largeurBase() * zoom() + 'px' : '100%'">
-    <img [src]="'assets/plans/hall' + numHall() + '.png'" [alt]="'Plan du hall ' + numHall()" (load)="onImageChargee($event)">
+    <img [src]="'assets/plans/hall' + numHall() + '.png'" [alt]="'Plan du hall ' + numHall()" draggable="false" (load)="onImageChargee($event)">
 
     @if( largeur() > 0 )
     {

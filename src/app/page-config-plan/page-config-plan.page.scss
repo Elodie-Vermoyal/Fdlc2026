@@ -8,6 +8,10 @@
 .plan
 {
     position: relative;
+    // pas de selection ni de glisser de l'image avec la souris
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
     max-width: 1100px;
     margin-top: 10px;
 }

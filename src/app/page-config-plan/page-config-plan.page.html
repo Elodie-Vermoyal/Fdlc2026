@@ -48,7 +48,7 @@
     </p>
 
     <div class="plan">
-      <img [src]="'assets/plans/hall' + hall() + '.png'" (load)="onImageChargee($event)">
+      <img [src]="'assets/plans/hall' + hall() + '.png'" draggable="false" (load)="onImageChargee($event)">
 
       @if( largeur() > 0 )
       {
