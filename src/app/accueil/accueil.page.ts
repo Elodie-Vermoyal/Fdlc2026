@@ -6,7 +6,6 @@ import {
   IonHeader, 
   IonTitle, 
   IonToolbar,
-  IonImg,
   IonButtons,
   IonMenuButton,
  } from '@ionic/angular';
@@ -22,7 +21,6 @@ import {
     IonToolbar, 
     IonButtons,
     IonMenuButton,
-    IonImg,
     CommonModule, 
     FormsModule]
 })

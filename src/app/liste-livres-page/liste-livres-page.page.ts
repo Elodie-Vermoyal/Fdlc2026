@@ -46,7 +46,7 @@ import { NomExposantComboComponent } from '../../components/nom-exposant-combo/n
     ListeLivresComponent,
     TitreLivreComboComponent,
     NomPersonneComboComponent,
-    GenreComboComponent,
+    // GenreComboComponent, (filtre genre en commentaire dans la page)
     NomExposantComboComponent
   ]
 })

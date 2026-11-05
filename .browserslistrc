@@ -8,9 +8,6 @@
 # You can see what browsers were selected by your queries by running:
 #   npx browserslist
 
+# "defaults" = les navigateurs supportes par Angular, les anciennes versions
+# (Chrome 107, Safari 16.1...) donnaient un warning a chaque build
 defaults
-Chrome >=107
-Firefox >=106
-Edge >=107
-Safari >=16.1
-iOS >=16.1

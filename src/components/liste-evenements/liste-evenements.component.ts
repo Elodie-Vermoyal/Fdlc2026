@@ -1,12 +1,9 @@
     import { Component, OnInit, OnChanges, input } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EvenementService } from '../../services/evenement.service';
 import { Evenement } from '../../modeles/Evenement';
 import { 
   IonList,
-  IonItem,
 } from '@ionic/angular';
 
 @Component({
@@ -16,9 +13,6 @@ import {
   standalone: true,
   imports: [
     IonList,
-    IonItem,
-    AsyncPipe,
-    RouterLink
   ],
 })
 export class ListeEvenementsComponent implements OnInit, OnChanges {
