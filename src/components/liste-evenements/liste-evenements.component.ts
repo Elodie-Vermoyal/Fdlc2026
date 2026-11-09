@@ -1,9 +1,18 @@
-    import { Component, OnInit, OnChanges, input } from '@angular/core';
+import { Component, OnInit, OnChanges, input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EvenementService } from '../../services/evenement.service';
 import { Evenement } from '../../modeles/Evenement';
+import { AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { 
   IonList,
+  IonItem,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonMenuButton
 } from '@ionic/angular';
 
 @Component({
@@ -13,6 +22,15 @@ import {
   standalone: true,
   imports: [
     IonList,
+    IonItem,
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
+    IonMenuButton,
+    AsyncPipe,
+    RouterLink
   ],
 })
 export class ListeEvenementsComponent implements OnInit, OnChanges {
