@@ -12,7 +12,7 @@ import {
 import { ListeEvenementsComponent } from '../../components/liste-evenements/liste-evenements.component';
 
 @Component({
-  selector: 'app-page-liste-evenements',
+  selector: 'page-liste-evenements',
   templateUrl: './page-liste-evenements.page.html',
   styleUrls: ['./page-liste-evenements.page.scss'],
   standalone: true,

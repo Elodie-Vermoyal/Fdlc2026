@@ -51,7 +51,7 @@ export class ListeEvenementsComponent implements OnInit, OnChanges {
   itemText(evenement: Evenement): string {
     let html = this.childHtml();
     html = html.replace("$id", evenement.id ? evenement.id.toString() : "");
-    html = html.replace("$titre", evenement.titre ?? "");
+    html = html.replace("$titre", evenement.titre ? evenement.titre : "");
     html = html.replace("$debut", evenement.debut ? evenement.debut.toString() : "");
     html = html.replace("$nomLieu", evenement.numLieu ? evenement.numLieu.toString() : "Lieu non défini");
     html = html.replace("$nomAnimateur", evenement.idAnimateur ? evenement.idAnimateur.toString() :"");
