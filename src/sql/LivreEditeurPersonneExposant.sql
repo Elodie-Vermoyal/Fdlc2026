@@ -13,7 +13,9 @@ select
     ex.id as idExposant,
     ex.nom as nomExposant,
     ev.id as idEvenement,
-    ev.titre as titreEvenement
+    ev.titre as titreEvenement,
+    ev.debut as debut,
+    ev.type as typeEvenement
 from livre as l
     left join editeur as e on l.idEditeur = e.id
     left join ecrire as ec on l.id = ec.idLivre
