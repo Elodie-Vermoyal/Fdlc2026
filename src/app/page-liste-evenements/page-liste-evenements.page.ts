@@ -7,7 +7,8 @@ import {
   IonTitle, 
   IonToolbar, 
   IonButtons, 
-  IonMenuButton 
+  IonMenuButton,
+  IonBackButton
 } from '@ionic/angular';
 import { ListeEvenementsComponent } from '../../components/liste-evenements/liste-evenements.component';
 
@@ -25,7 +26,8 @@ import { ListeEvenementsComponent } from '../../components/liste-evenements/list
     IonMenuButton, 
     CommonModule, 
     FormsModule,
-    ListeEvenementsComponent
+    ListeEvenementsComponent,
+    IonBackButton
   ]
 })
 export class PageListeEvenementsPage implements OnInit {

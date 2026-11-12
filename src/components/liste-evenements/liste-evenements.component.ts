@@ -1,78 +1,35 @@
-import { Component, OnInit, OnChanges, input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EvenementService } from '../../services/evenement.service';
-import { Evenement } from '../../modeles/Evenement';
+import { Component, OnChanges, OnInit, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { 
-  IonList,
-  IonItem,
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonBackButton,
-  IonTitle,
-  IonMenuButton
-} from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { IonList, IonItem } from '@ionic/angular';
+import { EvenementService } from '../../services/evenement.service';
+import { Evenement } from '../../modeles/Evenements';
 
 @Component({
   selector: 'app-liste-evenements',
   templateUrl: './liste-evenements.component.html',
   styleUrls: ['./liste-evenements.component.scss'],
-  standalone: true,
-  imports: [
-    IonList,
-    IonItem,
-    IonHeader,
-    IonToolbar,
-    IonButtons,
-    IonBackButton,
-    IonTitle,
-    IonMenuButton,
-    AsyncPipe,
-    RouterLink
-  ],
+  imports: [IonList, IonItem, AsyncPipe, RouterLink],
 })
 export class ListeEvenementsComponent implements OnInit, OnChanges {
-  childHtml = input<string>("$titre - Début : $debut ($nomLieu)");
+  childHtml = input<string>("$titre <strong>$stitre</strong>");
   lienPage = input<string>("/page-evenement");
+  nom = input<string>("");
+  protected listeEvenements: Observable<Evenement[]> | null = null;
 
-  titrePartie = input<string>("");
-  debut = input<string>("");
-  nomAnimateurPartie = input<string>("");
-  titreLivrePartie = input<string>("");
+  constructor(private serviceEvenement: Evenement) {}
 
-  protected listeEvenements: Observable<Array<Evenement>> | null = null;
-  protected serviceEvenement: EvenementService;
+  ngOnInit() { this.actualiserListe(); }
+  ngOnChanges() { this.actualiserListe(); }
 
-  constructor(serviceEvenement: EvenementService) {
-    this.serviceEvenement = serviceEvenement;
-  }
-
-  ngOnInit() {
-    this.actualiser();
-  }
-
-  ngOnChanges() {
-    this.actualiser();
-  }
-
-  private actualiser() {
-    this.listeEvenements = this.serviceEvenement.getTousLesEvenements(
-      this.titrePartie(),
-      this.debut(),
-      this.nomAnimateurPartie(),
-      this.titreLivrePartie()
-    );
+  private actualiserListe() {
+    this.listeEvenements = this.serviceEvenement.getTousLesEvenements(this.nom());
   }
 
   itemText(evenement: Evenement): string {
-    let html = this.childHtml();
-    html = html.replace("$id", evenement.id ? evenement.id.toString() : "");
-    html = html.replace("$titre", evenement.titre ? evenement.titre : "");
-    html = html.replace("$debut", evenement.debut ? evenement.debut.toString() : "");
-    html = html.replace("$nomLieu", evenement.numLieu ? evenement.numLieu.toString() : "Lieu non défini");
-    html = html.replace("$nomAnimateur", evenement.idAnimateur ? evenement.idAnimateur.toString() :"");
-    return html;
+    return this.childHtml()
+      .replace("$titre", String(evenement.titre))
+      .replace("$civilite", evenement.stitre ?? "")
   }
 }

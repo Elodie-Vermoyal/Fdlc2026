@@ -1,15 +1,5 @@
-<ion-header>
-  <ion-toolbar>
-    
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-
-    <ion-title>Événements</ion-title>
-
-    <ion-buttons slot="end">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+<ion-list>
+  @for (evenement of listeEvenements | async; track evenement.id) {
+    <ion-item [routerLink]="[lienPage(), evenement.id]" [innerHTML]="itemText(evenement)"></ion-item>
+  }
+</ion-list>
