@@ -2,6 +2,7 @@
 export class Evenement
 {
     public id: number = -1 ;
+    public jour: string = "" ;
     public typeevenement: string = "" ;   // type événement
     public titre: string = "" ;
     public stitre: string = "" ;          // sous-titre

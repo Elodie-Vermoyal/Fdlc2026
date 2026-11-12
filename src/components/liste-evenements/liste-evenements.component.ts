@@ -1,40 +1,56 @@
-import { Component, OnChanges, OnInit, input } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonList, IonItem } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { IonList, IonItem } from '@ionic/angular';
+import { map } from 'rxjs/operators';
 import { EvenementService } from '../../services/evenement.service';
-import { Evenement } from '../../modeles/Evenement'; // Ajustez si le fichier s'appelle Evenements.ts
+import { Evenement } from '../../modeles/Evenement';
 
 @Component({
   selector: 'app-liste-evenements',
   templateUrl: './liste-evenements.component.html',
   styleUrls: ['./liste-evenements.component.scss'],
-  imports: [IonList, IonItem, AsyncPipe, RouterLink],
+  standalone: true,
+  imports: [CommonModule, IonList, IonItem, RouterLink]
 })
 export class ListeEvenementsComponent implements OnInit, OnChanges {
-  childHtml = input<string>("$titre <strong>$stitre</strong>");
-  lienPage = input<string>("/page-evenement");
-  nom = input<string>("");
-  protected listeEvenements: Observable<Evenement[]> | null = null;
+  @Input() titrePartie: string = '';
+  @Input() debut: string = '';
+  @Input() nomAnimateurPartie: string = '';
+  @Input() titreLivrePartie: string = '';
+  @Input() lienPage: string = '/detail-evenement';
 
-  constructor(private serviceEvenement: EvenementService) {}
+  listeEvenements!: Observable<Evenement[]>;
+  evenementsFiltres$!: Observable<any[]>;
 
-  ngOnInit() { 
-    this.actualiserListe(); 
-  }
-  
-  ngOnChanges() { 
-    this.actualiserListe(); 
-  }
+  constructor(private evenementService: EvenementService) {}
 
-  private actualiserListe() {
-    this.listeEvenements = this.serviceEvenement.getTousLesEvenements(this.nom());
+  ngOnInit() {
+    this.chargerEvenements();
   }
 
-  itemText(evenement: Evenement): string {
-    return this.childHtml()
-      .replace("$titre", String(evenement.titre ?? ''))
-      .replace("$civilite", evenement.stitre ?? '');
+  ngOnChanges(changes: SimpleChanges) {
+    this.chargerEvenements();
+  }
+
+  chargerEvenements() {
+    this.listeEvenements = this.evenementService.getTousLesEvenements(
+      this.titrePartie,
+      this.debut,
+      this.nomAnimateurPartie,
+      this.titreLivrePartie
+    );
+
+    this.evenementsFiltres$ = this.listeEvenements.pipe(
+      map((evenements: any[]) =>
+        evenements.filter(e => {
+          if (!e.debut || e.debut.trim() === '' || e.jour === 'Tout le temps') {
+            return true;
+          }
+          return e.jour === 'Samedi' || e.jour === 'Dimanche';
+        })
+      )
+    );
   }
 }

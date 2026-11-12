@@ -1,5 +1,8 @@
 <ion-list>
-  @for (evenement of listeEvenements | async; track evenement.id) {
-    <ion-item [routerLink]="[lienPage(), evenement.id]" [innerHTML]="itemText(evenement)"></ion-item>
-  }
+  <ion-item *ngFor="let evenement of evenementsFiltres$ | async" [routerLink]="[lienPage, evenement.id]" button detail="true">
+    <div>
+      <strong>{{ evenement.titre }}</strong>
+      <p>{{ evenement.typeevenement }}</p>
+    </div>
+  </ion-item>
 </ion-list>
