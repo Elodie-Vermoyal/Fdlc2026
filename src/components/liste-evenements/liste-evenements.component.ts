@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { IonList, IonItem } from '@ionic/angular';
 import { EvenementService } from '../../services/evenement.service';
-import { Evenement } from '../../modeles/Evenements';
+import { Evenement } from '../../modeles/Evenement'; // Ajustez si le fichier s'appelle Evenements.ts
 
 @Component({
   selector: 'app-liste-evenements',
@@ -18,10 +18,15 @@ export class ListeEvenementsComponent implements OnInit, OnChanges {
   nom = input<string>("");
   protected listeEvenements: Observable<Evenement[]> | null = null;
 
-  constructor(private serviceEvenement: Evenement) {}
+  constructor(private serviceEvenement: EvenementService) {}
 
-  ngOnInit() { this.actualiserListe(); }
-  ngOnChanges() { this.actualiserListe(); }
+  ngOnInit() { 
+    this.actualiserListe(); 
+  }
+  
+  ngOnChanges() { 
+    this.actualiserListe(); 
+  }
 
   private actualiserListe() {
     this.listeEvenements = this.serviceEvenement.getTousLesEvenements(this.nom());
@@ -29,7 +34,7 @@ export class ListeEvenementsComponent implements OnInit, OnChanges {
 
   itemText(evenement: Evenement): string {
     return this.childHtml()
-      .replace("$titre", String(evenement.titre))
-      .replace("$civilite", evenement.stitre ?? "")
+      .replace("$titre", String(evenement.titre ?? ''))
+      .replace("$civilite", evenement.stitre ?? '');
   }
 }
